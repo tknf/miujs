@@ -1,7 +1,10 @@
-# MiuJS
+# MiuJS Web Framework
 
-Simple website builder.
+A simple and minimal web framework using the JavaScript and Node.js.
 
-MiuJS is a website build tool and hosting server in JavaScript and TypeScript.
+To get started, open a new shell and run:
+```bash
+npx create-miu@latest
+```
 
-## ⚠ MiuJS library is alpha version.
+More documentation: [MiuJS website](https://www.miujs.com)

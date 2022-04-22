@@ -1,6 +1,6 @@
 {
   "name": "miujs-netlify-ts-starter",
-  "version": "0.1.54",
+  "version": "0.1.55",
   "private": true,
   "scripts": {
     "dev": "miu dev",
@@ -9,6 +9,6 @@
   "dependencies": {
     "@netlify/functions": "^1.0.0",
     "encoding": "^0.1.13",
-    "miujs": "^0.1.54"
+    "miujs": "^0.1.55"
   }
 }
