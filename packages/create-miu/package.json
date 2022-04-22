@@ -1,0 +1,31 @@
+{
+  "name": "create-miu",
+  "license": "MIT",
+  "author": "mast1ff",
+  "version": "0.1.1",
+  "bin": {
+    "create-miu": "index.js"
+  },
+  "files": [
+    "index.js",
+    "template-*"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miujs/miujs",
+    "directory": "packages/create-miu"
+  },
+  "bugs": {
+    "url": "https://github.com/miujs/miujs/issues"
+  },
+  "homepage": "https://github.com/miujs/tree/main/packages/create-miu#readme",
+  "dependencies": {
+    "kolorist": "^1.5.1",
+    "minimist": "^1.2.6",
+    "prompts": "^2.4.2"
+  }
+}

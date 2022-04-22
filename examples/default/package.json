@@ -1,0 +1,18 @@
+{
+  "name": "miujs-example-default",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "clean": "rimraf node_modules build public/build",
+    "reset": "yarn clean && yarn",
+    "dev": "miu dev",
+    "build": "NODE_ENV=production miu build",
+    "serve": "NODE_ENV=production miu serve"
+  },
+  "dependencies": {
+    "miujs": "0.1.0"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

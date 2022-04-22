@@ -1,0 +1,14 @@
+{
+  "extends": "@tknf/eslint-config-typescript",
+  "rules": {
+    "no-var": "off",
+    "no-console": "off",
+    "no-param-reassign": "off",
+    "no-undef": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off"
+  }
+}

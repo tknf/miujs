@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src/browser/**/*.ts"],
+  "exclude": ["src/**/__tests__/**"],
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES2020",
+    "esModuleInterop": true
+  }
+}
