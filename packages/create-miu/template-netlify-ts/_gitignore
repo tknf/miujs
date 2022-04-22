@@ -26,4 +26,4 @@ dist-ssr
 # Build and cache
 /.cache
 /.miubuild
-/api/*.js
+/.netlify/functions-internal/*
