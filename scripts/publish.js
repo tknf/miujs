@@ -5,7 +5,7 @@ const semver = require("semver");
 const packageDirectory = path.resolve(__dirname, "../packages");
 
 function getTaggedVersion() {
-  const output = execSync(`git tag --list --opints-at HEAD`).toString().trim();
+  const output = execSync(`git tag --list --points-at HEAD`).toString().trim();
   return output.replace(/^v/g, "");
 }
 
