@@ -27,3 +27,4 @@ dist-ssr
 /.cache
 /.miubuild
 /api/*.js
+/public/assets/*

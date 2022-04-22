@@ -1,12 +1,12 @@
 {
   "name": "miujs-builtin-starter",
-  "version": "0.1.5",
+  "version": "0.1.51",
   "private": true,
   "scripts": {
     "dev": "miu dev",
     "build": "miu build"
   },
   "dependencies": {
-    "miujs": "^0.1.5"
+    "miujs": "^0.1.51"
   }
 }

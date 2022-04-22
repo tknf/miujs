@@ -27,3 +27,4 @@ dist-ssr
 /.cache
 /.miubuild
 /.netlify/functions-internal/*
+/public/assets/*
