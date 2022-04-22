@@ -3,7 +3,7 @@
   publish = "public"
 
 [dev]
-  command = "miu dev"
+  command = "miu watch"
   port = 3000
 
 [[redirects]]

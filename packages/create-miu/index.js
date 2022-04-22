@@ -41,7 +41,8 @@ const SERVERS = [
         color: blue
       }
     ]
-  },
+  }
+  /*
   {
     name: "netlify",
     color: cyan,
@@ -58,6 +59,7 @@ const SERVERS = [
       }
     ]
   }
+  */
 ];
 
 const TEMPLATES = SERVERS.map((s) => s.variants.map((v) => v.name)).reduce((a, b) => a.concat(b), []);

@@ -63,9 +63,9 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
     case "vercel":
       serverBuildPath = "api/index.js";
       break;
-    case "netlify":
-      serverBuildPath = "netlify/functions/server.js";
-      break;
+    //case "netlify":
+    //  serverBuildPath = ".netlify/functions/server.js";
+    //  break;
   }
   serverBuildDirectory = path.resolve(root, serverBuildDirectory);
   serverBuildPath = path.resolve(root, serverBuildPath);

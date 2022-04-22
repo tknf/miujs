@@ -1,7 +1,7 @@
 {
   "name": "miujs",
   "description": "Simple and fast build tool for website",
-  "version": "0.1.53",
+  "version": "0.1.54",
   "author": "mast1ff",
   "repository": {
     "type": "git",
