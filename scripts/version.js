@@ -7,8 +7,8 @@ const jsonfile = require("jsonfile");
 
 const rootDirectory = path.resolve(__dirname, "..");
 
-function updateVersion(packageName, nextVersion) {
-  const file = path.join(rootDirectory, "packages", packageName, "package.json");
+function updateVersion(packageName, directory, nextVersion) {
+  const file = path.join(rootDirectory, directory, packageName, "package.json");
   const json = jsonfile.readFileSync(file);
   json.version = nextVersion;
   if (Object.keys(json.dependencies).includes("miujs")) {
@@ -44,11 +44,12 @@ function getNextVersion(currentVersion, givenVersion, prereleaseId = "pre") {
 }
 
 function incrementVersion(nextVersion) {
-  updateVersion("miujs", nextVersion);
-  updateVersion("create-miu", nextVersion);
+  updateVersion("miujs", "packages", nextVersion);
+  updateVersion("create-miu", "packages", nextVersion);
+  updateVersion("default", "examples", nextVersion);
   const templates = ["builtin", "builtin-ts", "netlify", "netlify-ts", "vercel", "vercel-ts"];
   for (const name of templates) {
-    updateVersion(`create-miu/template-${name}`, nextVersion);
+    updateVersion(`create-miu/template-${name}`, "packages", nextVersion);
   }
 
   execSync(`git commit --all --message="Version ${nextVersion}"`);

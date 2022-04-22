@@ -11,15 +11,15 @@
   },
   "prettier": "@tknf/prettier-config",
   "scripts": {
-    "version:update": "node ./scripts/version.js",
-    "publish": "node ./scripts/publish.js",
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch --parallel",
     "lint": "turbo run lint",
     "format": "turbo run format",
-    "clean": "turbo run clean"
+    "clean": "turbo run clean",
+    "pkg:version": "node ./scripts/version.js",
+    "pkg:publish": "node ./scripts/publish.js"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
