@@ -1,12 +1,14 @@
 {
   "name": "miujs-netlify-starter",
-  "version": "0.1.52",
+  "version": "0.1.53",
   "private": true,
   "scripts": {
     "dev": "miu dev",
     "build": "miu build"
   },
   "dependencies": {
-    "miujs": "^0.1.52"
+    "@netlify/functions": "^1.0.0",
+    "encoding": "^0.1.13",
+    "miujs": "^0.1.53"
   }
 }

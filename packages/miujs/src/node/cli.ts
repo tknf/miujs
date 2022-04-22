@@ -103,6 +103,7 @@ cli
   .option(`--sourcemap`, `[boolean] generate sourcemap`)
   .action(async (options) => {
     const mode = options.mode ?? "production";
+    process.env.NODE_ENV = mode;
 
     const start = Date.now();
     const config = await loadConfig();
@@ -110,6 +111,23 @@ cli
     await build(config, { mode, sourcemap: options.sourcemap });
 
     logger.success(`Built in ${prettyMs(Date.now() - start)}`);
+  });
+
+cli
+  .command("watch", `Watch`)
+  .option(`--mode [mode]`, `[string] dev server mode`)
+  .option(`--port [port]`, `[number] specify port`)
+  .option(`--open`, `[boolean] open browser on startup`)
+  .action(async (options) => {
+    const mode = options.mode ?? "development";
+    const config = await loadConfig();
+    await loadEnv(config.rootDirectory);
+
+    await dev(config, mode, {
+      onInitialBuild: () => {
+        console.log(`Miu watching ...`);
+      }
+    });
   });
 
 cli

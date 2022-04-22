@@ -1,4 +1,4 @@
-import { createVercelRequestHandler } from "miujs/vercel";
+import { createNetlifyRequestHandler } from "miujs/netlify";
 import * as build from "miujs-server-build";
 
-export default createVercelRequestHandler({ build, mode: process.env.NODE_ENV });
+export default createNetlifyRequestHandler({ build, mode: process.env.NODE_ENV });

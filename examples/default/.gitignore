@@ -1,1 +1,4 @@
 .miubuild/
+netlify/
+api/
+/public/assets/*
