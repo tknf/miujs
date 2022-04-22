@@ -44,7 +44,7 @@ export function info(message: string) {
 
 export function invariant(value: any, message?: string) {
   if (value === false || value === null || typeof value === "undefined") {
-    error(`The following error is a bug in MiuJS;` + `Please open an issue: https://github.com/miujs/miujs/issues/new`);
+    error(`The following error is a bug in MiuJS;` + `Please open an issue: https://github.com/tknf/miujs/issues/new`);
     throw new Error(message);
   }
 }

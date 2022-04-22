@@ -5,17 +5,17 @@
   "author": "mast1ff",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/miujs/miujs.git",
+    "url": "git+https://github.com/tknf/miujs.git",
     "directory": "packages/miujs"
   },
   "bugs": {
-    "url": "https://github.com/miujs/miujs/issues"
+    "url": "https://github.com/tknf/miujs/issues"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
   },
-  "homepage": "https://github.com/miujs/miujs/tree/main/#readme",
+  "homepage": "https://github.com/tknf/miujs/tree/main/#readme",
   "license": "MIT",
   "bin": {
     "miu": "bin/miu.js"

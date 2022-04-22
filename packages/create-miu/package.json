@@ -16,13 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/miujs/miujs",
+    "url": "git+https://github.com/tknf/miujs",
     "directory": "packages/create-miu"
   },
   "bugs": {
-    "url": "https://github.com/miujs/miujs/issues"
+    "url": "https://github.com/tknf/miujs/issues"
   },
-  "homepage": "https://github.com/miujs/tree/main/packages/create-miu#readme",
+  "homepage": "https://github.com/tknf/tree/main/packages/create-miu#readme",
   "dependencies": {
     "kolorist": "^1.5.1",
     "minimist": "^1.2.6",
