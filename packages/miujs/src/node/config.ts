@@ -64,7 +64,7 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
       serverBuildPath = "api/index.js";
       break;
     case "netlify":
-      serverBuildPath = ".netlify/functions-internal/server.js";
+      serverBuildPath = "netlify/functions/server.js";
       break;
   }
   serverBuildDirectory = path.resolve(root, serverBuildDirectory);
