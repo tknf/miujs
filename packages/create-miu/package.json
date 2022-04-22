@@ -2,7 +2,7 @@
   "name": "create-miu",
   "license": "MIT",
   "author": "mast1ff",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "bin": {
     "create-miu": "index.js"
   },
