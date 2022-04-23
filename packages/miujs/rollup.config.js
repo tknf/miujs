@@ -88,8 +88,6 @@ const sharedNodeOptions = {
   },
   output: {
     dir: path.resolve(__dirname, "dist"),
-    entryFileNames: `node/[name].js`,
-    chunkFileNames: `node/chunks/[hash].js`,
     exports: "named",
     format: "cjs",
     externalLiveBindings: false,
@@ -124,12 +122,43 @@ const createNodeOptions = (isProduction) => {
    */
   const config = {
     ...sharedNodeOptions,
-    input: {
-      index: path.resolve(__dirname, "src/node/index.ts"),
-      cli: path.resolve(__dirname, "src/node/cli.ts")
-    },
+    input: path.resolve(__dirname, "src/node/index.ts"),
     output: {
       ...sharedNodeOptions.output,
+      dir: path.resolve(__dirname, "dist/node"),
+      preserveModules: true,
+      sourcemap: !isProduction
+    },
+    plugins: [
+      nodeResolve({ preferBuiltins: true }),
+      typescript({
+        tsconfig: "./tsconfig.node.json",
+        declaration: true,
+        declarationDir: "./dist/node"
+      }),
+      json()
+      // isProduction && licensePlugin()
+    ]
+  };
+
+  return config;
+};
+
+/**
+ * @param { boolean } isProduction
+ * @returns { import("rollup").RollupOptions }
+ */
+const createCliOptions = (isProduction) => {
+  /**
+   * @type { import('rollup').RollupOptions }
+   */
+  const config = {
+    ...sharedNodeOptions,
+    input: path.resolve(__dirname, "src/node/cli.ts"),
+    output: {
+      ...sharedNodeOptions.output,
+      entryFileNames: `node/[name].js`,
+      chunkFileNames: `node/chunks/[hash].js`,
       sourcemap: !isProduction
     },
     plugins: [
@@ -147,7 +176,6 @@ const createNodeOptions = (isProduction) => {
       // isProduction && licensePlugin()
     ]
   };
-
   return config;
 };
 
@@ -195,5 +223,10 @@ export default (options) => {
   const isDevelopment = options.watch;
   const isProduction = !isDevelopment;
 
-  return [createNodeOptions(isProduction), createServersOptions(isProduction), createBrowserOptions(isProduction)];
+  return [
+    createNodeOptions(isProduction),
+    createCliOptions(isProduction),
+    createServersOptions(isProduction),
+    createBrowserOptions(isProduction)
+  ];
 };

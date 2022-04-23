@@ -7,7 +7,7 @@ Featuring:
 - multiple deploy target
   - node
   - vercel
-  - netlify (Coming soon)
+  - netlify
 - scoped css
 - live reload
 - no dependencies in client bundle
