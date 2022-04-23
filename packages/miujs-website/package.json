@@ -1,0 +1,12 @@
+{
+  "name": "miujs-website",
+  "version": "0.1.57",
+  "private": true,
+  "scripts": {
+    "dev": "miu dev",
+    "build": "miu build"
+  },
+  "dependencies": {
+    "miujs": "^0.1.55"
+  }
+}
