@@ -1,6 +1,6 @@
 import { Handler, HandlerEvent, HandlerResponse } from "@netlify/functions";
 import type { Response as NodeResponse, RequestInit as NodeRequestInit } from "../isomorphic";
-import { AbortController, Headers as NodeHeaders, Request as NodeRequest } from "../isomorphic";
+import { Headers as NodeHeaders, Request as NodeRequest } from "../isomorphic";
 import type { ServerBuild } from "../types/server-build";
 import { createRequestHandler as createMiuHandler } from "../server-handler";
 import { installGlobals } from "../node-globals";
@@ -21,11 +21,10 @@ export function createNetlifyRequestHandler({
   const handleRequest = createMiuHandler(build, mode, context);
 
   return async (event, context) => {
-    const abortController = new AbortController();
-    const request = createRequest(event, abortController);
+    const request = createRequest(event);
     const response = (await handleRequest(request as unknown as Request)) as unknown as NodeResponse;
 
-    return sendResponse(response, abortController);
+    return sendResponse(response);
   };
 }
 
@@ -43,7 +42,7 @@ function createHeaders(requestHeaders: HandlerEvent["multiValueHeaders"]): NodeH
   return headers;
 }
 
-function createRequest(event: HandlerEvent, abortController?: AbortController): NodeRequest {
+function createRequest(event: HandlerEvent): NodeRequest {
   let url: URL;
 
   if (process.env.NODE_ENV !== "development") {
@@ -56,9 +55,7 @@ function createRequest(event: HandlerEvent, abortController?: AbortController): 
 
   const init: NodeRequestInit = {
     method: event.httpMethod,
-    headers: createHeaders(event.multiValueHeaders),
-    abortController,
-    signal: abortController?.signal
+    headers: createHeaders(event.multiValueHeaders)
   };
 
   if (event.httpMethod !== "GET" && event.httpMethod !== "HEAD" && event.body) {
@@ -73,11 +70,7 @@ function createRequest(event: HandlerEvent, abortController?: AbortController): 
   return new NodeRequest(url.href, init);
 }
 
-async function sendResponse(nodeResponse: NodeResponse, abortController: AbortController): Promise<HandlerResponse> {
-  if (abortController.signal.aborted) {
-    nodeResponse.headers.set("Connection", "close");
-  }
-
+async function sendResponse(nodeResponse: NodeResponse): Promise<HandlerResponse> {
   const contentType = nodeResponse.headers.get("Content-Type");
   const isBinary = isBinaryType(contentType);
   let body;
