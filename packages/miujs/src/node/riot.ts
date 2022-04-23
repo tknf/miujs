@@ -1,14 +1,9 @@
-import * as Riot from "riot";
+import * as riot from "riot";
 import * as ssr from "@riotjs/ssr";
 import type { RiotComponentWrapper } from "riot";
 import type { RenderSection } from "./types/render";
 import * as logger from "./logger";
 
-declare global {
-  var riot: typeof Riot;
-}
-
-export const PartialsCache = new Map<string, any>();
 export const SectionCache = new Map<string, RiotComponentWrapper>();
 
 export function setupRiot({
@@ -18,20 +13,14 @@ export function setupRiot({
   partials: Record<string, RiotComponentWrapper>;
   sections: Record<string, RiotComponentWrapper>;
 }) {
-  if (global.riot) {
-    return;
-  }
-
-  global.riot = Riot;
-
   Object.keys(partials).forEach((name) => {
     try {
-      global.riot.register(name, partials[name]);
-      console.log(`> partial registered: ${name}`);
+      riot.register(name, partials[name]);
+      // console.log(`> partial registered: ${name}`);
     } catch {
-      global.riot.unregister(name);
-      global.riot.register(name, partials[name]);
-      console.log(`> partial registered: ${name}`);
+      riot.unregister(name);
+      riot.register(name, partials[name]);
+      // console.log(`> partial registered: ${name}`);
     }
   });
 
@@ -39,13 +28,13 @@ export function setupRiot({
     const $name = `section:${name}`;
     try {
       SectionCache.set($name, sections[name]);
-      global.riot.register($name, sections[name]);
-      console.log(`> section registered: ${$name}`);
+      riot.register($name, sections[name]);
+      // console.log(`> section registered: ${$name}`);
     } catch {
-      global.riot.unregister($name);
+      riot.unregister($name);
       SectionCache.set($name, sections[name]);
-      global.riot.register($name, sections[name]);
-      console.log(`> section registered: ${$name}`);
+      riot.register($name, sections[name]);
+      // console.log(`> section registered: ${$name}`);
     }
   });
 }
@@ -92,8 +81,6 @@ export function renderRaw(layout: RiotComponentWrapper, content: string | ssr.Re
 }
 
 export function purgeRiotCache() {
-  // @ts-ignore
-  global.riot = undefined;
   SectionCache.clear();
   logger.info(`Riot cache cleared`);
 }

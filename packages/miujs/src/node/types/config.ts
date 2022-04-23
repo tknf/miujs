@@ -4,7 +4,7 @@
  * - "netlify"
  * - "cloud-flare"
  */
-export type ServerBuildTarget = "node" | "vercel"; // | "netlify";
+export type ServerBuildTarget = "node" | "vercel" | "netlify";
 
 export type ServerModuleFormat = "esm" | "cjs";
 

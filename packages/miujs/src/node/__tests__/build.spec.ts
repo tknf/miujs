@@ -44,10 +44,10 @@ describe("node:build", () => {
     generateFiles(path.resolve(rootPath, config.serverBuildDirectory), (f) => files.push(f));
     expect(files).toMatchInlineSnapshot(`
       Array [
-        "/Users/mast1ff/Repos/tknf/@oss/shibakit/packages/shibakit/src/node/__tests__/fixtures/stack/.shibakit/server/_routes/index.js",
-        "/Users/mast1ff/Repos/tknf/@oss/shibakit/packages/shibakit/src/node/__tests__/fixtures/stack/.shibakit/server/_routes/products/[handle].js",
-        "/Users/mast1ff/Repos/tknf/@oss/shibakit/packages/shibakit/src/node/__tests__/fixtures/stack/.shibakit/server/_routes/products/index.js",
-        "/Users/mast1ff/Repos/tknf/@oss/shibakit/packages/shibakit/src/node/__tests__/fixtures/stack/.shibakit/server/index.js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/index.js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/products/[handle].js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/products/index.js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/index.js",
       ]
     `);
   });
@@ -64,7 +64,7 @@ describe("node:build", () => {
     generateFiles(path.resolve(rootPath, config.clientBuildDirectory), (f) => files.push(f));
     expect(files).toMatchInlineSnapshot(`
       Array [
-        "/Users/mast1ff/Repos/tknf/@oss/shibakit/packages/shibakit/src/node/__tests__/fixtures/stack/.shibakit/browser/entry-client-N6LHF73E.js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/browser/entry-client-K2X6UA44.js",
       ]
     `);
   });

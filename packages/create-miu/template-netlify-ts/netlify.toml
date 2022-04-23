@@ -6,6 +6,9 @@
   command = "miu watch"
   port = 3000
 
+[functions]
+  directory = ".netlify/functions"
+
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
