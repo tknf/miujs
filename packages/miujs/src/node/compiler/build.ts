@@ -314,7 +314,7 @@ function isRouteFile(config: MiuConfig, file: string) {
 }
 
 function isTemplateFile(file: string) {
-  if (file.endsWith(".riot") || file.endsWith(".html")) {
+  if (file.endsWith(".riot") || file.endsWith(".html") || file.endsWith(".md")) {
     return true;
   }
 

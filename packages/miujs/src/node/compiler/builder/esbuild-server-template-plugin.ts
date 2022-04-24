@@ -1,6 +1,8 @@
 import fse from "fs-extra";
 import type { Plugin } from "esbuild";
 import sass from "sass";
+import postcss from "postcss";
+import autoprefixer from "autoprefixer";
 import { compile, registerPreprocessor } from "@riotjs/compiler";
 import type { MiuConfig } from "../../types/config";
 
@@ -9,11 +11,18 @@ export function serverTemplatePlugin(config: MiuConfig): Plugin {
     name: `server-template`,
     setup(build) {
       try {
-        registerPreprocessor("css", "scss", (code, { options }) => {
-          const { css } = sass.compileString(code);
-
+        registerPreprocessor("css", "css", (code) => {
+          const css = postcss([autoprefixer()]).process(code).toString();
           return {
-            code: css.toString()
+            code: css
+          };
+        });
+
+        registerPreprocessor("css", "scss", (code, { options }) => {
+          let css = sass.compileString(code).css.toString();
+          css = postcss([autoprefixer()]).process(css).toString();
+          return {
+            code: css
           };
         });
       } catch {

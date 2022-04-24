@@ -6,5 +6,8 @@ module.exports = {
   customWatchDirectories: ["./public/*.css"],
   ignoreRouteFiles: [".*"],
   clientBuildDirectory: "public/assets",
-  server: process.env.NODE_ENV === "production" ? "./server.js" : undefined
+  server: process.env.NODE_ENV === "production" ? "./server.js" : undefined,
+  markdown: {
+    enable: true
+  }
 };

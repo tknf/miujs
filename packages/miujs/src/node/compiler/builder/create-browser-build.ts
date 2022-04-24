@@ -1,5 +1,6 @@
 import { builtinModules as nodeBuiltins } from "module";
 import path from "path";
+import fse from "fs-extra";
 import * as esbuild from "esbuild";
 import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 import type { MiuConfig } from "../../types/config";
@@ -21,6 +22,13 @@ export async function createBrowserBuild(
   };
 
   const plugins: esbuild.Plugin[] = [NodeModulesPolyfillPlugin()];
+
+  if (fse.existsSync(config.clientBuildDirectory)) {
+    fse.rmSync(config.clientBuildDirectory, {
+      recursive: true,
+      force: true
+    });
+  }
 
   return esbuild.build({
     entryPoints,

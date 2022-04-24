@@ -62,7 +62,7 @@ export const get = ({ createContent }) => {
 
 ```html
 <!-- src/sections/index.html -->
-<section-index>
+<sect-index>
   <style type="scss">
     :host {
       display: block;
@@ -82,7 +82,7 @@ export const get = ({ createContent }) => {
   <p>
     {{ props.data.description }}
   </p>
-</section-index>
+</sect-index>
 ```
 ### Output
 ```html
@@ -97,10 +97,10 @@ export const get = ({ createContent }) => {
     </style>
   </head>
   <body>
-    <section:index>
+    <sect-index>
       <h1 class="title">My first website</h1>
       <p>Thanks for visiting!</p>
-    </section:index>
+    </sect-index>
     <script type="module" src="/assets/entry-client-DP3C1FHB.js" defer="defer"></script>
     <live-reload></live-reload>
   </body>

@@ -12,6 +12,7 @@ export interface RenderContent {
   sections?: RenderSection[];
   metadata?: Record<string, any>;
   data?: Record<string, any>;
+  __raw_html?: string;
 }
 
 export interface RenderContext {
@@ -21,4 +22,5 @@ export interface RenderContext {
   metadata?: Record<string, any>;
   error?: ServerErrorState;
   data?: Record<string, any>;
+  __raw_html?: string;
 }

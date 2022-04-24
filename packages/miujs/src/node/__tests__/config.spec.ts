@@ -25,6 +25,11 @@ describe("node:config", () => {
         },
         "rootDirectory": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack",
         "routes": Object {
+          "[handle]": Object {
+            "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/routes/[handle].ts",
+            "id": "[handle]",
+            "path": "/:handle",
+          },
           "index": Object {
             "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/routes/index.ts",
             "id": "index",

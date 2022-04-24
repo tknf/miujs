@@ -1,7 +1,7 @@
 import * as riot from "riot";
 import * as ssr from "@riotjs/ssr";
 import type { RiotComponentWrapper } from "riot";
-import type { RenderSection } from "./types/render";
+import type { RenderContext, RenderSection } from "./types/render";
 import * as logger from "./logger";
 
 export const SectionCache = new Map<string, RiotComponentWrapper>();
@@ -25,7 +25,7 @@ export function setupRiot({
   });
 
   Object.keys(sections).forEach((name) => {
-    const $name = `section:${name}`;
+    const $name = `sect-${name}`;
     try {
       SectionCache.set($name, sections[name]);
       riot.register($name, sections[name]);
@@ -39,9 +39,9 @@ export function setupRiot({
   });
 }
 
-export function render(layout: RiotComponentWrapper, sections: RenderSection[], context: any) {
+export function render(layout: RiotComponentWrapper, sections: RenderSection[], context: RenderContext) {
   const content: ssr.RenderingFragments[] = sections.map((section) => {
-    const name = `section:${section.name}`;
+    const name = `sect-${section.name}`;
     if (SectionCache.has(name)) {
       return ssr.fragments(name, SectionCache.get(name)!, {
         ...context,
@@ -57,7 +57,11 @@ export function render(layout: RiotComponentWrapper, sections: RenderSection[], 
   return renderRaw(layout, content, context);
 }
 
-export function renderRaw(layout: RiotComponentWrapper, content: string | ssr.RenderingFragments[], context: any) {
+export function renderRaw(
+  layout: RiotComponentWrapper,
+  content: string | ssr.RenderingFragments[],
+  context: RenderContext
+) {
   let contentStyle = "";
   let contentHtml = "";
 
@@ -69,13 +73,17 @@ export function renderRaw(layout: RiotComponentWrapper, content: string | ssr.Re
   }
 
   const { html, css } = ssr.fragments("html", layout, context);
-  const result = html
+  let result = html
     .replace(/<!-- *?content *?-->/, contentHtml)
     .replace(/<!-- *?style *?-->/, `<style>${css}${contentStyle}</style>`)
     .replace(
       /<!-- *?assets *?-->/,
       `<script type="module" src="${context.assets?.entry?.module}" defer="defer"></script>`
     );
+
+  if (context.__raw_html) {
+    result = result.replace(/<!-- *?raw_html *?-->/, context.__raw_html);
+  }
 
   return result;
 }

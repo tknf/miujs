@@ -14,7 +14,7 @@
   <visually-hidden>
     <a href="#main-content">Skip to content</a>
   </visually-hidden>
-  <section:header items="{{ props.theme.config?.sections?.header?.navigation || [] }}"></section:header>
+  <sect-header items="{{ props.theme.config?.sections?.header?.navigation || [] }}"></sect-header>
 
   <main id="main-content">
     <page-container>
@@ -23,7 +23,7 @@
     </page-container>
   </main>
 
-  <section:footer></section:footer>
+  <sect-footer></sect-footer>
 
   <live-reload></live-reload>
   <!-- assets -->

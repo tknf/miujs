@@ -13,10 +13,11 @@ body {
 body {
   margin: 0;
   display: grid;
-  grid-template-rows: 1fr min-content;
-  color: var(--color-text-primary);
-  background-color: var(--color-background-secondary);
-  font-family: var(--font-serif);
+  grid-template-rows: min-content min-content 1fr;
+  color: var(--color-text-secondary);
+  background-color: var(--color-background-primary);
+  font-family: var(--fong-sans);
+  font-weight: var(--font-regular);
 }
 
 h1,
@@ -25,7 +26,9 @@ h3,
 h4,
 h5,
 h6 {
+  color: var(--color-text-primary);
   font-family: var(--font-sans);
+  font-weight: var(--font-bold);
 }
 
 a {
@@ -35,21 +38,49 @@ a {
 
 main {
   width: 100%;
-  padding: 4.5rem 0 3rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100%;
+}
+
+@media screen and (min-width: 600px) {
+  .layout {
+    grid-template-columns: 220px 1fr;
+  }
+}
+
+@media screen and (min-width: 860px) {
+  .layout {
+    grid-template-columns: 280px 1fr;
+  }
 }
 
 :root {
-  --font-sans: "Lato", sans-serif;
-  --font-serif: "Crimson Pro", serif;
+  --font-mono: "JetBrains Mono", Monaco, Consolas, "Lucida Console", monospace;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "San Francisco", "Segoe UI", Roboto, "Helvetica Neue",
+    sans-serif;
+  --font-regular: 400;
+  --font-bold: 600;
+  --font-display: 800;
 
-  --color-background-primary: #ffffff;
-  --color-background-secondary: #efefef;
-  --color-background-inverse: #181818;
+  --color-background-primary: rgb(13, 17, 16);
+  --color-background-secondary: rgb(28, 36, 34);
+  --color-background-inverse: rgb(215, 220, 219);
 
-  --color-text-primary: #181818;
-  --color-text-secondary: #363636;
-  --color-text-inverse: #ffffff;
+  --color-text-primary: rgb(215, 220, 219);
+  --color-text-secondary: rgb(169, 175, 173);
+  --color-text-inverse: rgb(13, 17, 16);
 
-  --color-border-primary: #dddddd;
-  --color-border-secondary: #cccccc;
+  --color-border-primary: rgb(221, 221, 221);
+  --color-border-secondary: rgb(204, 204, 204);
+  --color-border-accent: rgba(0, 233, 163, 0.3);
+
+  --color-accent-primary: rgb(0, 233, 163);
+  --color-link: rgb(117, 162, 224);
+
+  --main-container-max-width: 1360px;
+  --main-article-max-width: calc(var(--main-container-max-width) * 0.75);
 }

@@ -1,7 +1,7 @@
 import type { RiotComponentWrapper } from "riot";
 import type { AssetsManifest } from "./compiler";
 import type { ServerEntryModuleHandler } from "./server-entry";
-import type { MiuConfig } from "./config";
+import type { MiuConfig, ConfigMarkdownContent } from "./config";
 import type { RouteModule } from "./route-modules";
 
 export interface ServerEntryModule {
@@ -34,6 +34,7 @@ export interface ServerBuild {
     sections: Record<string, RiotComponentWrapper>;
     partials: Record<string, RiotComponentWrapper>;
   };
+  markdownContents?: ConfigMarkdownContent[];
 }
 
 export interface VirtualModule {

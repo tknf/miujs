@@ -1,12 +1,12 @@
 {
   "name": "miujs-vercel-ts-starter",
-  "version": "0.1.58",
+  "version": "0.1.59",
   "private": true,
   "scripts": {
     "dev": "miu dev",
     "build": "miu build"
   },
   "dependencies": {
-    "miujs": "^0.1.58"
+    "miujs": "^0.1.59"
   }
 }

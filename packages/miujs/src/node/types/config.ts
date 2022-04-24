@@ -1,7 +1,6 @@
 /**
  * TODO:
  * Add target
- * - "netlify"
  * - "cloud-flare"
  */
 export type ServerBuildTarget = "node" | "vercel" | "netlify";
@@ -46,6 +45,11 @@ export interface ApplicationConfig {
   themeDirectory?: string;
 
   /**
+   * Configuration fro markdown content build.
+   */
+  markdown?: Partial<MarkdownConfig>;
+
+  /**
    * The path to the server build directory, relative to `miu.config.js`.\
    * Default: `".miubuild/server"`
    */
@@ -77,13 +81,13 @@ export interface ApplicationConfig {
 
   /**
    * The path to the client javascript entry filename without extensions, relative to `miu.config.js`.\
-   * Default: `"app/entry-client"`
+   * Default: `"src/entry-client"`
    */
   entryClientFile?: string;
 
   /**
    * The path to the MiuJS custom server filename without extensions, relative to `miu.config.js`.\
-   * Default: `"app/entry-server"`
+   * Default: `"src/entry-server"`
    */
   entryServerFile?: string;
 
@@ -106,16 +110,24 @@ export interface MiuConfig {
   themeDirectory: string;
   sectionsDirectory: string;
   partialsDirectory: string;
+
+  markdown: MarkdownConfig & {
+    contents: ConfigMarkdownContent[];
+  };
+
   serverBuildPath: string;
   serverBuildDirectory: string;
   serverModuleFormat: ServerModuleFormat;
   serverBuildTarget?: ServerBuildTarget;
   serverBuildTargetEntryModule: string;
   serverEntryPoint?: string;
+
   clientBuildDirectory: string;
   clientPublicPath: string;
+
   entryClientFile: string;
   entryServerFile: string;
+
   routes: Record<string, ConfigRoute>;
   customWatchDirectories?: string[];
   templates: {
@@ -123,6 +135,7 @@ export interface MiuConfig {
     sections: Record<string, ConfigTemplate>;
     partials: Record<string, ConfigTemplate>;
   };
+
   relativePath: {
     routes: string;
     layouts: string;
@@ -131,6 +144,22 @@ export interface MiuConfig {
     entryClient: string;
   };
 }
+
+export type MarkdownConfig = {
+  enable: boolean;
+
+  /**
+   * The path to the markdown contents directory, relative to `miu.config.js`.\
+   * Default: "src/contents"
+   */
+  contentsDirectory: string;
+};
+
+export type ConfigMarkdownContent = {
+  key: string;
+  data: any;
+  content: string;
+};
 
 export type ConfigTemplate = {
   file: string;

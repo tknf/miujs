@@ -1,9 +1,10 @@
 import type { RouteMatch } from "./types/route-matching";
-import type { CreateRequestHandlerFunction } from "./types/server-handler";
+import type { CreateRequestHandlerFunction, RequestContext } from "./types/server-handler";
 import type { ServerMode } from "./types/server-mode";
 import type { RouteManifest, ServerBuild } from "./types/server-build";
 import type { ServerErrorState, ServerEntryModuleContext } from "./types/server-entry";
 import type { RouteActionModuleKeys } from "./types/route-modules";
+
 import { setupRiot, render, renderRaw } from "./riot";
 import { isValidRequestMethod } from "./request";
 import { getContentTypeHeader, TextHtml } from "./response";
@@ -20,7 +21,10 @@ export const createRequestHandler: CreateRequestHandlerFunction = (build, mode, 
   return async function requestHandler(request, entryContext = {}) {
     const url = new URL(request.url);
     const match = matchRoutes(routes, url.pathname);
-    const appContext = Object.assign(serverContext, entryContext, { theme: build.theme });
+    const appContext = Object.assign(serverContext, entryContext, {
+      theme: build.theme,
+      markdownContents: build.markdownContents
+    });
 
     const response = await handleRequest({ build, context: appContext, match, request, servermode });
 
@@ -44,7 +48,7 @@ async function handleRequest({
   servermode
 }: {
   build: ServerBuild;
-  context: any;
+  context: RequestContext;
   match: RouteMatch | null;
   request: Request;
   servermode: ServerMode;
@@ -52,7 +56,7 @@ async function handleRequest({
   const handler = build.entry.module.default;
 
   const renderContext: RenderContext = {
-    ...context,
+    theme: context.theme,
     assets: build.assets,
     mode: servermode
   };
@@ -164,6 +168,7 @@ function defineCreateContentFunction(
 
     context = {
       ...context,
+      __raw_html: renderContent.__raw_html,
       metadata: renderContent.metadata,
       data: renderContent.data
     };

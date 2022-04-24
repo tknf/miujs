@@ -44,6 +44,7 @@ describe("node:build", () => {
     generateFiles(path.resolve(rootPath, config.serverBuildDirectory), (f) => files.push(f));
     expect(files).toMatchInlineSnapshot(`
       Array [
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/[handle].js",
         "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/index.js",
         "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/products/[handle].js",
         "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/products/index.js",
@@ -64,7 +65,7 @@ describe("node:build", () => {
     generateFiles(path.resolve(rootPath, config.clientBuildDirectory), (f) => files.push(f));
     expect(files).toMatchInlineSnapshot(`
       Array [
-        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/browser/entry-client-K2X6UA44.js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/browser/entry-client-WECA2VL6.js",
       ]
     `);
   });

@@ -10,10 +10,11 @@
   <meta name="description" content="{{ props.metadata?.description || props.theme.config?.description }}" />
   <link rel="stylesheet" href="/main.css" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=Lato:wght@400;700&display=swap"
-    rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600;800&display=swap"
+    rel="stylesheet">
   <!-- style -->
 </head>
 
@@ -21,18 +22,21 @@
   <visually-hidden>
     <a href="#main-content">Skip to content</a>
   </visually-hidden>
-  <section:header items="{{ props.theme.config?.sections?.header?.navigation || [] }}"></section:header>
+
+  <sect-announcement-bar messages="{{ props.data?.announcements }}"></sect-announcement-bar>
+  <sect-site-header items="{{ props.theme.config?.sections?.header?.navigation || [] }}"
+    title="{{ props.theme.config?.title }}" />
 
   <main id="main-content">
-    <page-container>
-      <!-- content -->
-    </page-container>
+    <div class="layout">
+      <nav is="sect-sidebar" items="{{ props.data?.navigation }}"></nav>
+      <div is="sect-main-content"></div>
+    </div>
   </main>
 
-  <section:footer></section:footer>
-
-  <live-reload></live-reload>
+  <live-reload />
   <!-- assets -->
+
 </body>
 
 </html>

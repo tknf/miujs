@@ -124,7 +124,9 @@ export const templates = {
 };
 
 export const theme = { ${createTheme(config)} };
-  `;
+
+${config.markdown.enable ? `export const markdownContents = ${JSON.stringify(config.markdown.contents)};` : ``}
+`;
 }
 
 export function serverEntryModulePlugin(config: MiuConfig): Plugin {

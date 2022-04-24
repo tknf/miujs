@@ -1,7 +1,7 @@
 {
   "name": "miujs",
   "description": "Simple and fast build tool for website",
-  "version": "0.1.58",
+  "version": "0.1.59",
   "author": "mast1ff",
   "repository": {
     "type": "git",
@@ -84,7 +84,7 @@
     "@vercel/node": "^1.14.1",
     "@web-std/file": "^3.0.2",
     "abort-controller": "^3.0.0",
-    "autoprefixer": "^10.4.4",
+    "autoprefixer": "^10.4.5",
     "busboy": "^0.3.1",
     "cac": "^6.7.12",
     "chalk": "^4.1.2",
@@ -102,6 +102,7 @@
     "form-data": "^4.0.0",
     "fs-extra": "^10.0.1",
     "get-port": "^5.1.1",
+    "gray-matter": "^4.0.3",
     "jsdom": "^19.0.0",
     "jsesc": "^3.0.2",
     "liquidjs": "^9.36.0",

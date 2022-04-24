@@ -1,7 +1,16 @@
 import path from "path";
 import fse from "fs-extra";
 import dashify from "dashify";
-import type { ApplicationConfig, MiuConfig, ConfigRoute, ConfigTemplate } from "./types/config";
+import matter from "gray-matter";
+
+import type {
+  ApplicationConfig,
+  MarkdownConfig,
+  MiuConfig,
+  ConfigRoute,
+  ConfigTemplate,
+  ConfigMarkdownContent
+} from "./types/config";
 import type { ServerMode } from "./types/server-mode";
 import { isServerMode } from "./server-mode";
 import { SERVER_BUILD_VIRTUAL_MODULE } from "./compiler/virtual-modules";
@@ -96,6 +105,24 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
     partials: createTemplateMap(partialsDirectory)
   };
 
+  /**
+   * Markdown configuration
+   */
+  const markdown: MarkdownConfig = {
+    enable: false,
+    contentsDirectory: path.join(root, "src/contents")
+  };
+  if (appConfig.markdown) {
+    if (appConfig.markdown.enable) {
+      markdown.enable = appConfig.markdown.enable;
+    }
+    if (appConfig.markdown.contentsDirectory) {
+      markdown.contentsDirectory = path.join(root, appConfig.markdown.contentsDirectory);
+    }
+  }
+
+  const markdownContents = markdown.enable ? createMarkdownMap(markdown.contentsDirectory) : [];
+
   const customWatchDirectories = appConfig.customWatchDirectories;
 
   const config: MiuConfig = {
@@ -106,18 +133,28 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
     sectionsDirectory,
     partialsDirectory,
     themeDirectory,
+
+    markdown: {
+      ...markdown,
+      contents: markdownContents
+    },
+
     serverBuildPath,
     serverBuildDirectory,
     serverModuleFormat,
     serverBuildTarget,
     serverBuildTargetEntryModule,
     serverEntryPoint,
+
     clientBuildDirectory,
     clientPublicPath,
+
     entryClientFile,
     entryServerFile,
+
     routes,
     templates,
+
     relativePath,
     customWatchDirectories
   };
@@ -168,21 +205,21 @@ function visitRouteFiles(
   dir: string,
   visitor: (routeData: { id: string; path: string; file: string }) => void,
   baseDir = dir,
-  parentDirname = "/"
+  parentDirname?: string
 ) {
   for (const filename of fse.readdirSync(dir)) {
     const file = path.resolve(dir, filename);
     const stat = fse.lstatSync(file);
 
     if (stat.isDirectory()) {
-      parentDirname = parentDirname + file.split("/").pop() ?? "";
+      parentDirname = parentDirname ? parentDirname + file.split("/").pop() : `/${file.split("/").pop()}`;
       visitRouteFiles(file, visitor, baseDir, parentDirname);
     } else if (stat.isFile()) {
       if (!/\.(j|t)s$/.test(filename)) {
         continue;
       }
 
-      const basePathname = `${parentDirname}/${filename}`;
+      const basePathname = parentDirname ? `${parentDirname}/${filename}` : `/${filename}`;
 
       let pathname = basePathname
         .replace(/\.(j|t)s$/, "")
@@ -210,6 +247,45 @@ function visitRouteFiles(
         path: pathname,
         file: path.resolve(baseDir, file)
       });
+    }
+  }
+}
+
+function createMarkdownMap(dir: string) {
+  const markdownContents: ConfigMarkdownContent[] = [];
+  if (fse.existsSync(dir)) {
+    visitMarkdownFiles(dir, (contents) => {
+      markdownContents.push(contents);
+    });
+  }
+
+  return markdownContents;
+}
+
+function visitMarkdownFiles(
+  dir: string,
+  visitor: (contents: { key: string; data: any; content: string }) => void,
+  baseDir = dir,
+  parentDirname?: string
+) {
+  for (const filename of fse.readdirSync(dir)) {
+    const file = path.resolve(dir, filename);
+    const stat = fse.lstatSync(file);
+
+    if (stat.isDirectory()) {
+      parentDirname = parentDirname ? parentDirname + file.split("/").pop() : file.split("/").pop();
+      visitMarkdownFiles(file, visitor, baseDir, parentDirname);
+    } else if (stat.isFile() && path.extname(file) === ".md") {
+      const dirname = parentDirname ? `${parentDirname}/` : "";
+      const key = `${dirname}${filename.split(".")[0]}`;
+      const contents = matter(fse.readFileSync(file, "utf-8"));
+      if (contents.content?.length > 0) {
+        visitor({
+          key,
+          data: contents.data,
+          content: contents.content
+        });
+      }
     }
   }
 }

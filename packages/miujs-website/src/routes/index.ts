@@ -1,61 +1,40 @@
-import { RouteAction, render, json, getCacheControlHeader, CacheMinutes } from "miujs/node";
-import { posts } from "../content/posts";
+import { CacheWeeks } from "miujs";
+import type { RouteAction } from "miujs/node";
+import { render, getCacheControlHeader } from "miujs/node";
+import { md } from "../lib/markdown-it";
 
-export const get: RouteAction = ({ createContent }) => {
+export const get: RouteAction = ({ createContent, request, context }) => {
+  const raw = md.render(context.markdownContents.find((c) => c.key === "index")?.content || "");
+  const navigation = context.markdownContents
+    .sort((a, b) => {
+      const aIndex: number = a.data.index || 0;
+      const bIndex: number = b.data.index || 1;
+      return aIndex - bIndex;
+    })
+    .map((doc) => {
+      const url = `/${doc.data.handle || ""}`;
+      const requestUrl = new URL(request.url);
+      return {
+        url,
+        text: doc.data.title,
+        current: url === requestUrl.pathname
+      };
+    });
+
   const html = createContent({
     layout: "default",
-    sections: [
-      {
-        name: "common-header",
-        settings: {}
-      },
-      {
-        name: "home-content",
-        settings: {}
-      }
-    ],
+    sections: [],
     metadata: {},
     data: {
-      posts
-    }
+      navigation
+    },
+    __raw_html: raw
   });
 
   return render(html, {
     status: 200,
     headers: {
-      [getCacheControlHeader()]: CacheMinutes()
+      [getCacheControlHeader()]: CacheWeeks()
     }
-  });
-};
-
-export const post: RouteAction = async ({ request, createContent }) => {
-  const formdata = await request.formData();
-  const name = formdata.get("name");
-
-  const status = name ? 200 : 400;
-  const error = !name ? `Invalid \"name\".` : undefined;
-
-  const html = createContent({
-    layout: "default",
-    sections: [
-      {
-        name: "common-header",
-        settings: {}
-      },
-      {
-        name: "home-content",
-        settings: {}
-      }
-    ],
-    metadata: {},
-    data: {
-      posts,
-      name,
-      error
-    }
-  });
-
-  return render(html, {
-    status
   });
 };

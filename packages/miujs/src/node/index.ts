@@ -1,3 +1,5 @@
+import "./compiler/builder/esbuild-modules";
+
 export {
   NoStore,
   CacheSeconds,
