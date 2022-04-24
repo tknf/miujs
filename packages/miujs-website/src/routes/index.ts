@@ -4,7 +4,8 @@ import { render, getCacheControlHeader } from "miujs/node";
 import { md } from "../lib/markdown-it";
 
 export const get: RouteAction = ({ createContent, request, context }) => {
-  const raw = md.render(context.markdownContents.find((c) => c.key === "index")?.content || "");
+  const contents = context.markdownContents.find((c) => c.key === "index");
+  const raw = md.render(contents?.content || "");
   const navigation = context.markdownContents
     .sort((a, b) => {
       const aIndex: number = a.data.index || 0;
@@ -26,7 +27,9 @@ export const get: RouteAction = ({ createContent, request, context }) => {
     sections: [],
     metadata: {},
     data: {
-      navigation
+      navigation,
+      prev: contents?.data.prev,
+      next: contents?.data.next
     },
     __raw_html: raw
   });

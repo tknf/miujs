@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8" />
@@ -27,12 +27,12 @@
   <sect-site-header items="{{ props.theme.config?.sections?.header?.navigation || [] }}"
     title="{{ props.theme.config?.title }}" />
 
-  <main id="main-content">
+  <div>
     <div class="layout">
       <nav is="sect-sidebar" items="{{ props.data?.navigation }}"></nav>
-      <div is="sect-main-content"></div>
+      <div is="sect-main-content" prev="{{ props.data?.prev }}" next="{{ props.data?.next }}"></div>
     </div>
-  </main>
+  </div>
 
   <live-reload />
   <!-- assets -->

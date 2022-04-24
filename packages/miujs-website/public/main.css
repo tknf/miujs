@@ -31,9 +31,21 @@ h6 {
   font-weight: var(--font-bold);
 }
 
+p,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+}
+
+pre,
+code {
+  font-family: var(--font-mono);
 }
 
 main {
@@ -68,6 +80,7 @@ main {
 
   --color-background-primary: rgb(13, 17, 16);
   --color-background-secondary: rgb(28, 36, 34);
+  --color-background-accent: rgb(10, 29, 23);
   --color-background-inverse: rgb(215, 220, 219);
 
   --color-text-primary: rgb(215, 220, 219);
