@@ -3,6 +3,7 @@ import type { BrowserComponent } from "./types/components";
 import { domReady } from "./utils/dom-ready";
 
 export class MiuBrowser {
+  private stylesheets: HTMLLinkElement[] = [];
   private components: typeof BrowserComponent[] = [];
 
   constructor({ log = true }: MiuBrowserOptions = {}) {
@@ -15,6 +16,13 @@ export class MiuBrowser {
     this.components.push(component);
   }
 
+  public css(stylesheetUrl: string) {
+    const link = document.createElement("link");
+    link.href = stylesheetUrl;
+    link.rel = `stylesheet`;
+    this.stylesheets.push(link);
+  }
+
   public start() {
     domReady().then(() => {
       for (const component of this.components) {
@@ -23,6 +31,10 @@ export class MiuBrowser {
         if (name && !window.customElements.get(name)) {
           window.customElements.define(name, component);
         }
+      }
+
+      for (const stylesheet of this.stylesheets) {
+        document.head.appendChild(stylesheet);
       }
     });
   }

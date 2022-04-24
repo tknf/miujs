@@ -65,7 +65,7 @@ describe("node:build", () => {
     generateFiles(path.resolve(rootPath, config.clientBuildDirectory), (f) => files.push(f));
     expect(files).toMatchInlineSnapshot(`
       Array [
-        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/browser/entry-client-WECA2VL6.js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/browser/entry-client-OVLUE4AA.js",
       ]
     `);
   });

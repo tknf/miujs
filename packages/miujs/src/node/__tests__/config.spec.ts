@@ -15,6 +15,11 @@ describe("node:config", () => {
         "entryClientFile": "src/entry-client.ts",
         "entryServerFile": "src/entry-server.ts",
         "layoutsDirectory": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/layouts",
+        "markdown": Object {
+          "contents": Array [],
+          "contentsDirectory": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/contents",
+          "enable": false,
+        },
         "partialsDirectory": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/partials",
         "relativePath": Object {
           "entryClient": "src/entry-client.ts",
