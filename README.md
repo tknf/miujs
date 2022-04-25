@@ -43,13 +43,13 @@ export const get = ({ createContent }) => {
 ```
 
 ```html
-<!-- src/layouts/default.html -->
+<!-- src/layouts/default.njk -->
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>{{ props.metadata.title }}</title>
+    <title>{{ metadata.title }}</title>
     <!-- style -->
   </head>
   <body>
@@ -61,50 +61,28 @@ export const get = ({ createContent }) => {
 ```
 
 ```html
-<!-- src/sections/index.html -->
-<sect-index>
-  <style type="scss">
-    :host {
-      display: block;
-      width: 100%;
-      position: relative;
+<!-- src/sections/index.njk -->
+<style scoped lang="scss">
+  .root:scope {
+    display: block;
+    width: 100%;
+    position: relative;
 
-      .title {
-        margin-top: 0;
-        font-size: 2.8rem;
-      }
+    .title {
+      margin-top: 0;
+      font-size: 2.8rem;
     }
-  </style>
+  }
+</style>
 
+<div class="root">
   <h1 class="title">
-    {{ props.data.title }}
+    {{ data.title }}
   </h1>
   <p>
-    {{ props.data.description }}
+    {{ data.description }}
   </p>
-</sect-index>
-```
-### Output
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>homepage</title>
-    <style>
-      section\:index { display: block; width: 100%; position: relative; } section\:index .title { margin-top: 0; font-size: 2.8rem; }
-    </style>
-  </head>
-  <body>
-    <sect-index>
-      <h1 class="title">My first website</h1>
-      <p>Thanks for visiting!</p>
-    </sect-index>
-    <script type="module" src="/assets/entry-client-DP3C1FHB.js" defer="defer"></script>
-    <live-reload></live-reload>
-  </body>
-</html>
+</div>
 ```
 
 ## Documentation
