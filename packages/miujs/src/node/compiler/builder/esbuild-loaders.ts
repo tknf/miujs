@@ -11,6 +11,8 @@ export const loaders: { [ext: string]: esbuild.Loader } = {
   ".jpeg": "file",
   ".jpg": "file",
   ".js": "jsx",
+  // nunjucks
+  ".node": "file",
   ".jsx": "jsx",
   ".json": "json",
   ".md": "js",

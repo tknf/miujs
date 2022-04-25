@@ -7,6 +7,7 @@
 html,
 body {
   height: 100%;
+  overflow: auto;
   font-size: 100%;
 }
 
@@ -54,19 +55,19 @@ main {
 
 .layout {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   min-height: 100%;
 }
 
 @media screen and (min-width: 600px) {
   .layout {
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 220px minmax(0, 1fr);
   }
 }
 
 @media screen and (min-width: 860px) {
   .layout {
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 280px minmax(0, 1fr);
   }
 }
 

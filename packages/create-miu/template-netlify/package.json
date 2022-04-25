@@ -1,6 +1,6 @@
 {
   "name": "miujs-netlify-starter",
-  "version": "0.1.60",
+  "version": "0.1.61",
   "private": true,
   "scripts": {
     "dev": "netlify dev",
@@ -9,7 +9,7 @@
   "dependencies": {
     "@netlify/functions": "^1.0.0",
     "encoding": "^0.1.13",
-    "miujs": "^0.1.60"
+    "miujs": "^0.1.61"
   },
   "devDependencies": {
     "netlify-cli": "^10.0.0"

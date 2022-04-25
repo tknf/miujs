@@ -13,7 +13,7 @@ import type {
 } from "../types/compiler";
 import * as logger from "../logger";
 import { loadConfig } from "../config";
-import { purgeRiotCache } from "../riot";
+import { purgeCache } from "../templates";
 import { createServerBuild } from "./builder/create-server-build";
 import { createBrowserBuild } from "./builder/create-browser-build";
 import { createAssetsManifest } from "./builder/create-assets-manifest";
@@ -82,7 +82,7 @@ export async function watch(
   const restartBuilders = debounce(async (newConfig?: MiuConfig) => {
     disposeBuilders();
     try {
-      purgeRiotCache();
+      purgeCache();
       newConfig = await loadConfig(config.rootDirectory);
     } catch (err) {
       onBuildFailure(err as Error);
@@ -314,7 +314,7 @@ function isRouteFile(config: MiuConfig, file: string) {
 }
 
 function isTemplateFile(file: string) {
-  if (file.endsWith(".riot") || file.endsWith(".html") || file.endsWith(".md")) {
+  if (file.endsWith(".njk") || file.endsWith(".nj") || file.endsWith(".html") || file.endsWith(".md")) {
     return true;
   }
 

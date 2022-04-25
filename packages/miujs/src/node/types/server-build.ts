@@ -1,4 +1,3 @@
-import type { RiotComponentWrapper } from "riot";
 import type { AssetsManifest } from "./compiler";
 import type { ServerEntryModuleHandler } from "./server-entry";
 import type { MiuConfig, ConfigMarkdownContent } from "./config";
@@ -30,11 +29,16 @@ export interface ServerBuild {
     locale: Record<string, any>;
   };
   templates: {
-    layouts: Record<string, RiotComponentWrapper>;
-    sections: Record<string, RiotComponentWrapper>;
-    partials: Record<string, RiotComponentWrapper>;
+    layouts: Record<string, TemplateBuild>;
+    sections: Record<string, TemplateBuild>;
+    partials: Record<string, TemplateBuild>;
   };
   markdownContents?: ConfigMarkdownContent[];
+}
+
+export interface TemplateBuild {
+  html: string;
+  css: string | null;
 }
 
 export interface VirtualModule {

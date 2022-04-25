@@ -71,7 +71,11 @@ describe("node:config", () => {
               "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/partials/card.html",
             },
           },
-          "sections": Object {},
+          "sections": Object {
+            "header": Object {
+              "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/sections/header.njk",
+            },
+          },
         },
         "themeDirectory": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/theme",
       }

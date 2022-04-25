@@ -7,6 +7,7 @@ export type ServerBuildTarget = "node" | "vercel" | "netlify";
 
 export type ServerModuleFormat = "esm" | "cjs";
 
+// FIX
 export interface ApplicationConfig {
   /**
    * The path to the MiuJS source files directory.\
@@ -22,19 +23,19 @@ export interface ApplicationConfig {
 
   /**
    * The path to the section files directory, relative to `sourceDirectory`.\
-   * Default: `"routes"`
+   * Default: `"layouts"`
    */
   layoutsDirectory?: string;
 
   /**
    * The path to the section files directory, relative to `sourceDirectory`.\
-   * Default: `"routes"`
+   * Default: `"sections"`
    */
   sectionsDirectory?: string;
 
   /**
    * The path to the partial files directory, relative to `sourceDirectory`.\
-   * Default: `"routes"`
+   * Default: `"partials"`
    */
   partialsDirectory?: string;
 
@@ -45,7 +46,7 @@ export interface ApplicationConfig {
   themeDirectory?: string;
 
   /**
-   * Configuration fro markdown content build.
+   * Configuration for markdown content build.
    */
   markdown?: Partial<MarkdownConfig>;
 
@@ -86,7 +87,7 @@ export interface ApplicationConfig {
   entryClientFile?: string;
 
   /**
-   * The path to the MiuJS custom server filename without extensions, relative to `miu.config.js`.\
+   * The path to the MiuJS server entrypoint filename without extensions, relative to `miu.config.js`.\
    * Default: `"src/entry-server"`
    */
   entryServerFile?: string;

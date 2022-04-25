@@ -176,7 +176,7 @@ function createTemplateMap(dir: string) {
   if (fse.existsSync(dir)) {
     fse
       .readdirSync(dir)
-      .filter((file) => path.extname(file) === ".html")
+      .filter((file) => path.extname(file) === ".html" || path.extname(file) === ".njk" || path.extname(file) === ".nj")
       .forEach((file) => {
         const name = dashify(file.replace(path.extname(file), "").replace(".", "-"));
         templates[name] = {

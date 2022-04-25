@@ -1,6 +1,5 @@
-import { CacheWeeks } from "miujs";
+import { CacheWeeks, render, getCacheControlHeader } from "miujs/node";
 import type { RouteAction } from "miujs/node";
-import { render, getCacheControlHeader } from "miujs/node";
 import { md } from "../lib/markdown-it";
 
 export const get: RouteAction = ({ createContent, request, context }) => {
@@ -12,6 +11,7 @@ export const get: RouteAction = ({ createContent, request, context }) => {
       const bIndex: number = b.data.index || 1;
       return aIndex - bIndex;
     })
+    .filter((d) => d.data.published)
     .map((doc) => {
       const url = `/${doc.data.handle || ""}`;
       const requestUrl = new URL(request.url);

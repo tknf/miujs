@@ -1,9 +1,8 @@
-import { parse } from "querystring";
 import type { Key } from "path-to-regexp";
 import { pathToRegexp, regexpToFunction } from "path-to-regexp";
 import * as logger from "./logger";
 import type { RouteBuild } from "./types/server-build";
-import type { RouteMatch, Query, Params } from "./types/route-matching";
+import type { RouteMatch, Params } from "./types/route-matching";
 
 function pathMatch(path: string) {
   const keys: Key[] = [];
@@ -24,21 +23,18 @@ function pathMatch(path: string) {
   };
 }
 
-export function matchRoute(route: RouteBuild, pathname: string): RouteMatch {
+export function matchRoute(route: RouteBuild, requestUrl: string): RouteMatch {
+  const url = new URL(requestUrl);
   const path = route.path;
 
   try {
-    const splited = pathname.split("?");
-    const pathString = splited[0];
-    const queryString = splited[1];
-
-    let query: Query | undefined;
-    if (queryString) {
-      query = parse(queryString);
-    }
+    const query: Record<string, string> = {};
+    url.searchParams.forEach((value, key) => {
+      query[key] = value;
+    });
 
     const matcher = pathMatch(path);
-    const result = matcher(pathString) as Params | false;
+    const result = matcher(url.pathname) as Params | false;
 
     return {
       route,
@@ -58,6 +54,6 @@ export function matchRoute(route: RouteBuild, pathname: string): RouteMatch {
   }
 }
 
-export function matchRoutes(routes: RouteBuild[], pathname: string): RouteMatch | null {
-  return routes.map((route) => matchRoute(route, pathname)).find((res) => res.matched) ?? null;
+export function matchRoutes(routes: RouteBuild[], url: string): RouteMatch | null {
+  return routes.map((route) => matchRoute(route, url)).find((res) => res.matched) ?? null;
 }

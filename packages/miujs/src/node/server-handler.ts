@@ -5,7 +5,7 @@ import type { RouteManifest, ServerBuild } from "./types/server-build";
 import type { ServerErrorState, ServerEntryModuleContext } from "./types/server-entry";
 import type { RouteActionModuleKeys } from "./types/route-modules";
 
-import { setupRiot, render, renderRaw } from "./riot";
+import { setupTemplate, render, renderRaw } from "./templates";
 import { isValidRequestMethod } from "./request";
 import { getContentTypeHeader, TextHtml } from "./response";
 import { matchRoutes } from "./route-matching";
@@ -16,11 +16,10 @@ export const createRequestHandler: CreateRequestHandlerFunction = (build, mode, 
   const routes = createRoutes(build.routes);
   const servermode: ServerMode = isServerMode(mode) ? mode : "production";
 
-  setupRiot({ partials: build.templates.partials, sections: build.templates.sections });
+  setupTemplate({ partials: build.templates.partials, sections: build.templates.sections });
 
   return async function requestHandler(request, entryContext = {}) {
-    const url = new URL(request.url);
-    const match = matchRoutes(routes, url.pathname);
+    const match = matchRoutes(routes, request.url);
     const appContext = Object.assign(serverContext, entryContext, {
       theme: build.theme,
       markdownContents: build.markdownContents
