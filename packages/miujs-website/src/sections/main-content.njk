@@ -1,6 +1,7 @@
 <style scoped lang="scss">
   .root:scope {
     padding: 0 20px;
+    min-height: calc(100vh - 48px);
   }
 
   #main-content:scope {
@@ -144,6 +145,32 @@
   footer:scope {
     position: relative;
     padding: 40px 20px 80px;
+
+    nav {
+      display: flex;
+    }
+
+    ul {
+      display: flex;
+      align-items: center;
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+    }
+
+    li {
+      &:not(:first-child) {
+        margin-left: 10px;
+      }
+    }
+
+    a {
+      color: var(--color-link);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 </style>
 
@@ -178,9 +205,16 @@
     </main>
 
     <footer role="contentinfo">
-      <div>
-        jifds
-      </div>
+      <nav>
+        <ul>
+          <li>
+            <a href="https://github.com/tknf/miujs" target="_blank" rel="noreferrer noopener">Github</a>
+          </li>
+          <li>
+            <a href="https://www.tknf.net" target="_blank" rel="noreferrer noopener">TKNF LLC</a>
+          </li>
+        </ul>
+      </nav>
     </footer>
   </div>
 </template>
