@@ -1,0 +1,70 @@
+<style scoped lang="scss">
+  .root:scope {
+    display: none;
+    position: sticky;
+    top: 48px;
+    overflow-y: hidden;
+    background-color: var(--color-background-secondary);
+    border-top-right-radius: 12px;
+    max-height: calc(100vh - 48px);
+    padding: 20px 0;
+
+    @media screen and (min-width: 600px) {
+      display: block;
+    }
+  }
+
+  .container:scope {
+    padding: 0 10px;
+  }
+
+  .list:scope {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .list_item:scope {
+    position: relative;
+    font-size: 0.9rem;
+
+    &:not(:first-child) {
+      margin-top: 4px;
+    }
+  }
+
+  .link:scope {
+    display: block;
+    color: var(--color-text-secondary);
+    padding: 8px 10px;
+    transition: color 150ms ease;
+
+    &.active {
+      font-weight: var(--font-bold);
+      color: var(--color-text-primary);
+      background-color: var(--color-background-primary);
+      border-radius: 8px;
+    }
+
+    &:hover {
+      color: var(--color-text-primary);
+    }
+  }
+</style>
+
+<template>
+  <div class="root">
+    <div class="container">
+      <ul class="list">
+        {% for item in items %}
+          {% set classname = "link active" if item.current else "link" %}
+          <li class="list_item">
+            <a class="{{ classname }}" href="{{ item.url }}" {% if item.current %}aria-current="page"{% endif %}>
+              {{ item.text }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</template>

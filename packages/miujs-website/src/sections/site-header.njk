@@ -1,0 +1,90 @@
+<style scoped lang="scss">
+  .root:scope {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: var(--color-background-primary);
+  }
+
+  .navigation:scope {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .mobile_container:scope {
+    display: flex;
+
+    .logo {
+      > a {
+        display: flex;
+        align-items: center;
+
+        > span {
+          font-weight: var(--font-display);
+          font-size: 0.9rem;
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+
+  .container:scope {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    max-width: var(--main-container-max-width);
+    margin: 0 auto;
+
+    > ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      > li {
+        line-height: 48px;
+
+        > a {
+          margin: 0 10px;
+          padding: 0 15px;
+          display: block;
+          transition: background-color 150ms ease;
+
+          &:hover {
+            background-color: var(--color-background-secondary);
+          }
+        }
+      }
+    }
+  }
+</style>
+
+
+<template>
+  <div class="root">
+    <nav class="navigation">
+      <div class="mobile_container">
+        <div class="logo">
+          <a href="/" aria-label="MiuJS Home">
+            {% partial "miu-icon", { width: 30 } %}
+            <span>{{ theme.config.title }}</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="container">
+        <ul>
+          {% for item in items %}
+            <li>
+              <a href="{{ item.url }}">
+                {{ item.text }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  </div>
+</template>

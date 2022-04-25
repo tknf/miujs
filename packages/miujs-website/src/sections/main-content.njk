@@ -1,0 +1,186 @@
+<style scoped lang="scss">
+  .root:scope {
+    padding: 0 20px;
+  }
+
+  #main-content:scope {
+    max-width: var(--main-article-max-width);
+    width: 100%;
+    padding-top: 40px;
+    padding-bottom: 60px;
+
+    article {
+      > *:first-child {
+        margin-top: 0;
+      }
+    }
+
+    hr {
+      width: 100%;
+      border: 0;
+      border-top: 1px solid var(--color-border-accent);
+      margin: 40px 0;
+    }
+
+
+    a {
+      color: var(--color-link);
+      text-decoration: underline;
+
+      &.external::after {
+        content: "";
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        margin-left: 8px;
+        background-color: currentColor;
+        mask: url(data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2215%22%20height%3D%2215%22%20viewBox%3D%220%200%2015%2015%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M3%202C2.44772%202%202%202.44772%202%203V12C2%2012.5523%202.44772%2013%203%2013H12C12.5523%2013%2013%2012.5523%2013%2012V8.5C13%208.22386%2012.7761%208%2012.5%208C12.2239%208%2012%208.22386%2012%208.5V12H3V3L6.5%203C6.77614%203%207%202.77614%207%202.5C7%202.22386%206.77614%202%206.5%202H3ZM12.8536%202.14645C12.9015%202.19439%2012.9377%202.24964%2012.9621%202.30861C12.9861%202.36669%2012.9996%202.4303%2013%202.497L13%202.5V2.50049V5.5C13%205.77614%2012.7761%206%2012.5%206C12.2239%206%2012%205.77614%2012%205.5V3.70711L6.85355%208.85355C6.65829%209.04882%206.34171%209.04882%206.14645%208.85355C5.95118%208.65829%205.95118%208.34171%206.14645%208.14645L11.2929%203H9.5C9.22386%203%209%202.77614%209%202.5C9%202.22386%209.22386%202%209.5%202H12.4999H12.5C12.5678%202%2012.6324%202.01349%2012.6914%202.03794C12.7504%202.06234%2012.8056%202.09851%2012.8536%202.14645Z%22%20fill%3D%22currentColor%22%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E) no-repeat 50% 50%;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    p, ul, ol {
+      margin-bottom: 1em;
+      line-height: 1.5;
+      font-size: 1rem;
+    }
+
+    ul {
+      list-style-type: square;
+      padding-left: 2.2em;
+      margin-top: 0.4em;
+
+      > li {
+        padding-left: 4px;
+        margin-bottom: 6px;
+      }
+    }
+
+    h1 {
+      margin-top: 2.4rem;
+      margin-bottom: 1.2rem;
+      font-size: 2em;
+      font-weight: var(--font-display);
+    }
+    h2 {
+      font-size: 1.6rem;
+      font-weight: var(--font-display);
+    }
+    h3 {
+      font-size: 1.2rem;
+    }
+    h2, h3 {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+    h4 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-size: 1.1em;
+    }
+
+    p > code,
+    td code,
+    ul > code,
+    ol > code,
+    li > code {
+      font-family: var(--font-mono);
+      background-color: var(--color-background-accent);
+      border: 1px solid var(--color-border-accent);
+      padding: 0 6px;
+      border-radius: 4px;
+      color: var(--color-text-primary);
+    }
+
+    p > img {
+      display: block;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    pre {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .pagination_card {
+      min-width: 40%;
+      @media screen and (min-width: 600px) {
+        min-width: 200px;
+      }
+
+      a {
+        display: block;
+        border: 1px solid var(--color-border-accent);
+        padding: 12px;
+        line-height: 1;
+        border-radius: 8px;
+        color: var(--color-text-primary);
+        text-decoration: none;
+        transition: background-color 150ms ease;
+
+        &:hover {
+          background-color: var(--color-background-secondary);
+        }
+
+        > .label {
+          display: block;
+          font-size: 0.875rem;
+          margin-bottom: 8px;
+          color: var(--color-text-secondary);
+        }
+      }
+    }
+  }
+
+  footer:scope {
+    position: relative;
+    padding: 40px 20px 80px;
+  }
+</style>
+
+<template>
+  <div class="root">
+    <main id="main-content" role="main">
+      <article>
+        <!-- raw_html -->
+      </article>
+      <div class="pagination">
+        <div class="pagination_card">
+          {% if prev %}
+            <a href="{{ prev.url }}">
+              <span class="label">
+                Prev:
+              </span>
+              {{ prev.text }}
+            </a>
+          {% endif %}
+        </div>
+        <div class="pagination_card">
+          {% if next %}
+            <a href="{{ next.url }}">
+              <span class="label">
+                Next:
+              </span>
+              {{ next.text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </main>
+
+    <footer role="contentinfo">
+      <div>
+        jifds
+      </div>
+    </footer>
+  </div>
+</template>

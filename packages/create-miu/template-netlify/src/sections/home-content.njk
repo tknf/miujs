@@ -1,0 +1,90 @@
+<style scoped lang="scss">
+  .root:scope {
+    display: block;
+    padding-top: 3rem;
+
+    h2,
+    h3 {
+      margin-top: 0;
+    }
+
+    form {
+      display: flex;
+    }
+
+    input {
+      width: 100%;
+      max-width: 450px;
+      appearance: none;
+      background-color: var(--color-background-primary);
+      border: 1px solid var(--color-border-primary);
+      border-radius: 0;
+      padding: 10px 11px 10px 13px;
+      font-size: 1rem;
+      flex-grow: 1;
+    }
+
+    button {
+      font-size: 1rem;
+      background-color: var(--color-background-inverse);
+      color: var(--color-text-inverse);
+      border: 0;
+      padding: 10px 11px;
+      cursor: pointer;
+    }
+
+    .error {
+      font-size: 0.85rem;
+      color: red;
+      margin-bottom: 10px;
+    }
+
+    .post_form {
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--color-border-primary);
+    }
+
+    .get {
+      padding-top: 2.5rem;
+    }
+  }
+</style>
+
+<template>
+  <div class="root">
+    <div class="post_form">
+      <h2>POST Action</h2>
+
+      {% if data.name %}
+        <h3>Hello {{ data.name }}</h3>
+      {% else %}
+        <h3>Type your name: </h3>
+      {% endif %}
+
+      {% if data.error %}
+        <div class="error">
+          {{ data.error }}
+        </div>
+      {% endif %}
+
+      <form action="/" method="post">
+        <input type="text" name="name" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <div class="get">
+      <h2>File system routing</h2>
+      <ul>
+        {% for post in data.posts %}
+          <li>
+            <a href="/posts/{{- post.handle -}}">
+              <h3>{{ post.title }}</h3>
+              <p>{{ post.content }}</p>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</template>
