@@ -33,6 +33,12 @@ a {
   text-decoration: none;
 }
 
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 main {
   width: 100%;
   padding: 4.5rem 0 3rem;

@@ -9,17 +9,22 @@ export const get: RouteAction = ({ createContent, params }) => {
 
   if (!post || post.handle === "404") {
     status = 404;
-    html = createContent({
-      layout: "404"
-    });
+    return render(
+      createContent({
+        layout: "404"
+      }),
+      { status: 404 }
+    );
   } else if (post.handle === "500") {
-    status = 500;
-    html = createContent({
-      layout: "500"
-    });
-  } else {
-    status = 200;
-    html = createContent({
+    return render(
+      createContent({
+        layout: "500"
+      }),
+      { status: 500 }
+    );
+  }
+  return render(
+    createContent({
       layout: "default",
       sections: [
         {
@@ -35,10 +40,7 @@ export const get: RouteAction = ({ createContent, params }) => {
       data: {
         post
       }
-    });
-  }
-
-  return render(html, {
-    status
-  });
+    }),
+    { status: 200 }
+  );
 };
