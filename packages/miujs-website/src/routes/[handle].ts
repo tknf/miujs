@@ -35,7 +35,8 @@ export const get: RouteAction = ({ createContent, query, request, context, param
     layout: "default",
     sections: [],
     metadata: {
-      title: contents.data.title
+      title: contents.data.title,
+      url: `/${contents.data.handle}`
     },
     data: {
       navigation,

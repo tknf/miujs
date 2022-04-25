@@ -25,7 +25,9 @@ export const get: RouteAction = ({ createContent, request, context }) => {
   const html = createContent({
     layout: "default",
     sections: [],
-    metadata: {},
+    metadata: {
+      title: contents?.data.title
+    },
     data: {
       navigation,
       prev: contents?.data.prev,
