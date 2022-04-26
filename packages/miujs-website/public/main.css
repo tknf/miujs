@@ -15,7 +15,7 @@ body {
   grid-template-rows: min-content min-content 1fr;
   color: var(--color-text-secondary);
   background-color: var(--color-background-primary);
-  font-family: var(--fong-sans);
+  font-family: var(--font-sans);
   font-weight: var(--font-regular);
 }
 
