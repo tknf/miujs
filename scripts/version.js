@@ -46,6 +46,7 @@ function getNextVersion(currentVersion, givenVersion, prereleaseId = "pre") {
 function incrementVersion(nextVersion) {
   updateVersion("miujs", "packages", nextVersion);
   updateVersion("create-miu", "packages", nextVersion);
+  updateVersion("miujs-website", "packages", nextVersion);
   updateVersion("default", "examples", nextVersion);
   const templates = ["builtin", "builtin-ts", "netlify", "netlify-ts", "vercel", "vercel-ts"];
   for (const name of templates) {

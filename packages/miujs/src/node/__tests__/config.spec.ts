@@ -16,9 +16,30 @@ describe("node:config", () => {
         "entryServerFile": "src/entry-server.ts",
         "layoutsDirectory": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/layouts",
         "markdown": Object {
-          "contents": Array [],
+          "contents": Array [
+            Object {
+              "content": "More nested",
+              "data": Object {},
+              "key": "blog/dev/index",
+            },
+            Object {
+              "content": "Nested directory",
+              "data": Object {},
+              "key": "blog/index",
+            },
+            Object {
+              "content": "Top level",
+              "data": Object {},
+              "key": "index",
+            },
+            Object {
+              "content": "Nested directory",
+              "data": Object {},
+              "key": "person/index",
+            },
+          ],
           "contentsDirectory": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/contents",
-          "enable": false,
+          "enable": true,
         },
         "partialsDirectory": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/partials",
         "relativePath": Object {
@@ -34,6 +55,11 @@ describe("node:config", () => {
             "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/routes/[handle].ts",
             "id": "[handle]",
             "path": "/:handle",
+          },
+          "blog/index": Object {
+            "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/routes/blog/index.ts",
+            "id": "blog/index",
+            "path": "/blog",
           },
           "index": Object {
             "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/routes/index.ts",
@@ -63,12 +89,12 @@ describe("node:config", () => {
         "templates": Object {
           "layouts": Object {
             "default": Object {
-              "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/layouts/default.html",
+              "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/layouts/default.njk",
             },
           },
           "partials": Object {
             "card": Object {
-              "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/partials/card.html",
+              "file": "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/src/partials/card.njk",
             },
           },
           "sections": Object {

@@ -1,4 +1,8 @@
 /**
  * @type { import("miujs/node").ApplicationConfig }
  */
-module.exports = {};
+module.exports = {
+  markdown: {
+    enable: true
+  }
+};

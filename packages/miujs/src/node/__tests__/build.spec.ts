@@ -45,6 +45,8 @@ describe("node:build", () => {
     expect(files).toMatchInlineSnapshot(`
       Array [
         "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/[handle].js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/blog/index.js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/fsevents-72LCIACT.node",
         "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/index.js",
         "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/products/[handle].js",
         "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/server/_routes/products/index.js",
@@ -65,7 +67,7 @@ describe("node:build", () => {
     generateFiles(path.resolve(rootPath, config.clientBuildDirectory), (f) => files.push(f));
     expect(files).toMatchInlineSnapshot(`
       Array [
-        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/browser/entry-client-OVLUE4AA.js",
+        "/Users/mast1ff/Repos/tknf/@oss/miujs/packages/miujs/src/node/__tests__/fixtures/stack/.miubuild/browser/entry-client-FCY5LC7F.js",
       ]
     `);
   });

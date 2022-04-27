@@ -190,10 +190,22 @@ function createTemplateMap(dir: string) {
 function createRouteMap(dir: string) {
   const routes: Record<string, ConfigRoute> = {};
   if (fse.existsSync(dir)) {
-    visitRouteFiles(dir, ({ id, path, file }) => {
+    visitFiles(dir, (filename) => {
+      const key = filename.replace(/\.(j|t)s$/, "");
+      const file = path.resolve(dir, filename);
+      const id = createRouteId(key);
+      let pathname = `/${key}`
+        .replace(/\index$/i, "")
+        .replace(/\b[A-Z]/, (firstletter) => firstletter.toLowerCase())
+        .replace(/\[(?:[.]{3})?(\w+?)\]/g, (_match, param: string) => `:${param}`);
+
+      if (pathname.endsWith("/") && pathname !== "/") {
+        pathname = pathname.substring(0, pathname.length - 1);
+      }
+
       routes[id] = {
         id,
-        path,
+        path: pathname,
         file
       };
     });
@@ -201,91 +213,33 @@ function createRouteMap(dir: string) {
   return routes;
 }
 
-function visitRouteFiles(
-  dir: string,
-  visitor: (routeData: { id: string; path: string; file: string }) => void,
-  baseDir = dir,
-  parentDirname?: string
-) {
-  for (const filename of fse.readdirSync(dir)) {
-    const file = path.resolve(dir, filename);
-    const stat = fse.lstatSync(file);
-
-    if (stat.isDirectory()) {
-      parentDirname = parentDirname ? parentDirname + file.split("/").pop() : `/${file.split("/").pop()}`;
-      visitRouteFiles(file, visitor, baseDir, parentDirname);
-    } else if (stat.isFile()) {
-      if (!/\.(j|t)s$/.test(filename)) {
-        continue;
-      }
-
-      const basePathname = parentDirname ? `${parentDirname}/${filename}` : `/${filename}`;
-
-      let pathname = basePathname
-        .replace(/\.(j|t)s$/, "")
-        .replace(/\index$/i, "")
-        .replace(/\b[A-Z]/, (firstletter) => firstletter.toLowerCase())
-        .replace(/\[(?:[.]{3})?(\w+?)\]/g, (_match, param: string) => `:${param}`);
-      if (pathname.endsWith("/") && pathname !== "/") {
-        pathname = pathname.substring(0, pathname.length - 1);
-      }
-
-      let id = createRouteId(basePathname);
-      if (id.startsWith("//")) {
-        id = id.replace(/\//, "");
-      }
-      if (id.startsWith("/")) {
-        id = id.replace(/\//, "");
-      }
-
-      if (/\index$/i.test(id)) {
-        // console.log(id);
-      }
-
-      visitor({
-        id,
-        path: pathname,
-        file: path.resolve(baseDir, file)
-      });
-    }
-  }
-}
-
 function createMarkdownMap(dir: string) {
   const markdownContents: ConfigMarkdownContent[] = [];
-  if (fse.existsSync(dir)) {
-    visitMarkdownFiles(dir, (contents) => {
-      markdownContents.push(contents);
-    });
-  }
+  visitFiles(dir, (file) => {
+    const filePath = path.resolve(dir, file);
+    if (fse.existsSync(filePath) && path.extname(file) === ".md") {
+      const key = file.replace(/\.md$/, "");
+      const contents = matter(fse.readFileSync(filePath, "utf-8"));
+      markdownContents.push({
+        key,
+        data: contents.data,
+        content: contents.content
+      });
+    }
+  });
 
   return markdownContents;
 }
 
-function visitMarkdownFiles(
-  dir: string,
-  visitor: (contents: { key: string; data: any; content: string }) => void,
-  baseDir = dir,
-  parentDirname?: string
-) {
+function visitFiles(dir: string, visitor: (file: string) => void, baseDir = dir) {
   for (const filename of fse.readdirSync(dir)) {
     const file = path.resolve(dir, filename);
     const stat = fse.lstatSync(file);
 
     if (stat.isDirectory()) {
-      parentDirname = parentDirname ? parentDirname + file.split("/").pop() : file.split("/").pop();
-      visitMarkdownFiles(file, visitor, baseDir, parentDirname);
-    } else if (stat.isFile() && path.extname(file) === ".md") {
-      const dirname = parentDirname ? `${parentDirname}/` : "";
-      const key = `${dirname}${filename.split(".")[0]}`;
-      const contents = matter(fse.readFileSync(file, "utf-8"));
-      if (contents.content?.length > 0) {
-        visitor({
-          key,
-          data: contents.data,
-          content: contents.content
-        });
-      }
+      visitFiles(file, visitor, baseDir);
+    } else {
+      visitor(path.relative(baseDir, file));
     }
   }
 }

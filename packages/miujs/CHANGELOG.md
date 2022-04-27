@@ -46,3 +46,9 @@ All notable changes to this project will be documented in this file.
 #### by [@mast1ff](https://github.com/mast1ff) - 2022-04-24
 - Toplevel named route path in resolve config
   - `src/config.ts`
+
+## [0.1.64] - 2022-04-27
+### Fixed
+#### by [@mast1ff](https://github.com/mast1ff) - 2022-04-27
+- Problem of broken path mapping when multiple directories exist in the same level
+  - `src/node/config.ts`

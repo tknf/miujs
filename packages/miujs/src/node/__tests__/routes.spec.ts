@@ -38,23 +38,23 @@ describe("node:routes", () => {
       }
     ];
     test("/", () => {
-      const result = matchRoutes(routes, "/")?.matched;
+      const result = matchRoutes(routes, "http://localhost:3000")?.matched;
       expect(result).toBeTruthy();
     });
 
     test("/products", () => {
-      const result = matchRoutes(routes, "/products")?.matched;
+      const result = matchRoutes(routes, "http://localhost:3000/products")?.matched;
       expect(result).toBeTruthy();
     });
 
     test("/product/apple", () => {
-      const result = matchRoutes(routes, "/product/apple")?.matched;
+      const result = matchRoutes(routes, "http://localhost:3000/product/apple")?.matched;
       expect(result).toBeTruthy();
     });
 
     test("/us", () => {
       try {
-        matchRoutes(routes, "/us")?.matched || false;
+        matchRoutes(routes, "http://localhost:3000/us")?.matched || false;
       } catch (e) {
         expect(e).toMatch("error");
       }
