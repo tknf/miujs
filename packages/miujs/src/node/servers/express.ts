@@ -1,9 +1,15 @@
 import { PassThrough } from "stream";
 import type * as express from "express";
 import { installGlobals } from "../node-globals";
-import type { RequestInit as NodeRequestInit, Response as NodeResponse } from "../isomorphic";
+import {
+  RequestInit as NodeRequestInit,
+  Response as NodeResponse,
+  writeReadableStreamToWritable,
+  AbortController as NodeAbortController,
+  Headers as NodeHeaders,
+  Request as NodeRequest
+} from "../isomorphic";
 import type { ServerBuild } from "../types/server-build";
-import { AbortController, Headers as NodeHeaders, Request as NodeRequest } from "../isomorphic";
 import { createRequestHandler as createMiuHandler } from "../server-handler";
 
 installGlobals();
@@ -27,11 +33,10 @@ export function createExpressRequestHandler({
 
   return async (req, res, next) => {
     try {
-      const abortController = new AbortController();
-      const request = createRequest(req, abortController);
+      const request = createRequest(req, res);
       const response = (await handleRequest(request as unknown as Request)) as unknown as NodeResponse;
 
-      sendResponse(res, response, abortController);
+      sendResponse(res, response);
     } catch (err) {
       next(err);
     }
@@ -56,15 +61,16 @@ function createHeaders(requestHeaders: express.Request["headers"]): NodeHeaders 
   return headers;
 }
 
-function createRequest(req: express.Request, abortController?: AbortController): NodeRequest {
+function createRequest(req: express.Request, res: express.Response): NodeRequest {
   const origin = `${req.protocol}://${req.get("host")}`;
   const url = new URL(req.url, origin);
+  const controller = new NodeAbortController();
+  res.on("close", () => controller.abort());
 
   const init: NodeRequestInit = {
     method: req.method,
     headers: createHeaders(req.headers),
-    signal: abortController?.signal,
-    abortController
+    signal: controller.signal as NodeRequestInit["signal"]
   };
 
   if (req.method !== "GET" && req.method !== "HEAD") {
@@ -74,7 +80,7 @@ function createRequest(req: express.Request, abortController?: AbortController):
   return new NodeRequest(url.href, init);
 }
 
-function sendResponse(res: express.Response, nodeResponse: NodeResponse, abortController: AbortController): void {
+async function sendResponse(res: express.Response, nodeResponse: NodeResponse): Promise<void> {
   res.statusMessage = nodeResponse.statusText;
   res.status(nodeResponse.status);
 
@@ -84,14 +90,8 @@ function sendResponse(res: express.Response, nodeResponse: NodeResponse, abortCo
     }
   }
 
-  if (abortController.signal.aborted) {
-    res.set("Connection", "close");
-  }
-
-  if (Buffer.isBuffer(nodeResponse.body)) {
-    res.end(nodeResponse.body);
-  } else if (nodeResponse.body?.pipe) {
-    nodeResponse.body.pipe(res);
+  if (nodeResponse.body) {
+    await writeReadableStreamToWritable(nodeResponse.body, res);
   } else {
     res.end();
   }

@@ -52,22 +52,22 @@ function createRouteImports(config: MiuConfig): string {
 
 function createTemplateImports(config: MiuConfig): string {
   return `
+  ${Object.keys(config.templates.routes)
+    .map((name, index) => {
+      const file = config.templates.routes[name].file;
+      return `import { default as template_route_${index} } from ${JSON.stringify(file)};`;
+    })
+    .join("\n")}
   ${Object.keys(config.templates.layouts)
     .map((name, index) => {
       const file = config.templates.layouts[name].file;
-      return `import { default as layout_${index} } from ${JSON.stringify(file)};`;
-    })
-    .join("\n")}
-  ${Object.keys(config.templates.sections)
-    .map((name, index) => {
-      const file = config.templates.sections[name].file;
-      return `import { default as section_${index} } from ${JSON.stringify(file)};`;
+      return `import { default as template_layout_${index} } from ${JSON.stringify(file)};`;
     })
     .join("\n")}
   ${Object.keys(config.templates.partials)
     .map((name, index) => {
       const file = config.templates.partials[name].file;
-      return `import { default as partial_${index} } from ${JSON.stringify(file)};`;
+      return `import { default as template_partial_${index} } from ${JSON.stringify(file)};`;
     })
     .join("\n")}
   `;
@@ -87,16 +87,16 @@ function createRouteManifest(config: MiuConfig): string {
 }
 
 function createTemplateManifest(config: MiuConfig): string {
-  const { layouts, sections, partials } = config.templates;
+  const { layouts, routes, partials } = config.templates;
   return `
-  layouts: {${Object.keys(layouts)
-    .map((t, index) => `${JSON.stringify(t)}: layout_${index}`)
+  routes: {${Object.keys(routes)
+    .map((t, index) => `${JSON.stringify(t)}: template_route_${index}`)
     .join(",")}},
-  sections: {${Object.keys(sections)
-    .map((t, index) => `${JSON.stringify(t)}: section_${index}`)
+  layouts: {${Object.keys(layouts)
+    .map((t, index) => `${JSON.stringify(t)}: template_layout_${index}`)
     .join(",")}},
   partials: {${Object.keys(partials)
-    .map((t, index) => `${JSON.stringify(t)}: partial_${index}`)
+    .map((t, index) => `${JSON.stringify(t)}: template_partial_${index}`)
     .join(",")}}
   `;
 }

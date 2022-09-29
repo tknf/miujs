@@ -17,9 +17,10 @@ export async function createBrowserBuild(
   const dependencies = Object.keys(getDependencies(config));
   const externals = nodeBuiltins.filter((mod) => !dependencies.includes(mod));
 
-  const entryPoints: esbuild.BuildOptions["entryPoints"] = {
-    "entry-client": path.resolve(config.rootDirectory, config.entryClientFile)
-  };
+  const entryPoints: esbuild.BuildOptions["entryPoints"] = {};
+  for (const [key, file] of Object.entries(config.clientEntries)) {
+    entryPoints[key] = path.resolve(config.rootDirectory, file);
+  }
 
   const plugins: esbuild.Plugin[] = [NodeModulesPolyfillPlugin()];
 

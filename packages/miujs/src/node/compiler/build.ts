@@ -13,7 +13,6 @@ import type {
 } from "../types/compiler";
 import * as logger from "../logger";
 import { loadConfig } from "../config";
-import { purgeCache } from "../templates";
 import { createServerBuild } from "./builder/create-server-build";
 import { createBrowserBuild } from "./builder/create-browser-build";
 import { createAssetsManifest } from "./builder/create-assets-manifest";
@@ -82,7 +81,6 @@ export async function watch(
   const restartBuilders = debounce(async (newConfig?: MiuConfig) => {
     disposeBuilders();
     try {
-      purgeCache();
       newConfig = await loadConfig(config.rootDirectory);
     } catch (err) {
       onBuildFailure(err as Error);
@@ -296,8 +294,14 @@ export function isBuildMode(mode?: string): mode is BuildMode {
 function isEntryPoint(config: MiuConfig, file: string) {
   const srcFile = path.relative(config.sourceDirectory, file);
 
-  if (srcFile === config.entryClientFile || srcFile === config.entryServerFile) {
+  if (srcFile === config.serverEntryPoint) {
     return true;
+  }
+
+  for (const [, file] of Object.entries(config.clientEntries)) {
+    if (srcFile === file) {
+      return true;
+    }
   }
 
   return false;
@@ -314,7 +318,7 @@ function isRouteFile(config: MiuConfig, file: string) {
 }
 
 function isTemplateFile(file: string) {
-  if (file.endsWith(".njk") || file.endsWith(".nj") || file.endsWith(".html") || file.endsWith(".md")) {
+  if (file.endsWith(".html") || file.endsWith(".md") || file.endsWith(".json")) {
     return true;
   }
 

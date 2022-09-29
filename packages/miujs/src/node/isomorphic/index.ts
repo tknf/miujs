@@ -2,12 +2,15 @@ import sourceMapSupport from "source-map-support";
 
 sourceMapSupport.install();
 
-export type { HeadersInit, RequestInfo, RequestInit, ResponseInit } from "./fetch";
-export type { UploadHandler, UploadHandlerArgs } from "./form-data";
 export { AbortController } from "abort-controller";
-export { Headers, Request, Response, fetch } from "./fetch";
-export { FormData } from "./form-data";
-export { parseMultipartFormData as unstable_parseMultipartFormData } from "./parse-multipart-form-data";
+export type { HeadersInit, RequestInfo, RequestInit, ResponseInit } from "./fetch";
+export { fetch, FormData, Headers, Request, Response } from "./fetch";
+export {
+  createReadableStreamFromReadable,
+  readableStreamToString,
+  writeAsyncIterableToWritable,
+  writeReadableStreamToWritable
+} from "./stream";
 
-// TODO: File session and uploads
+export { createFileUploadHandler as unstable_createFileUploadHandler, NodeOnDiskFile } from "./upload";
 export { createCookie, createCookieSessionStorage, createSessionStorage } from "./impl";

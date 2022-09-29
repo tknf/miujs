@@ -29,16 +29,11 @@ export interface ServerBuild {
     locale: Record<string, any>;
   };
   templates: {
-    layouts: Record<string, TemplateBuild>;
-    sections: Record<string, TemplateBuild>;
-    partials: Record<string, TemplateBuild>;
+    routes: Record<string, string>;
+    layouts: Record<string, string>;
+    partials: Record<string, string>;
   };
   markdownContents?: ConfigMarkdownContent[];
-}
-
-export interface TemplateBuild {
-  html: string;
-  css: string | null;
 }
 
 export interface VirtualModule {

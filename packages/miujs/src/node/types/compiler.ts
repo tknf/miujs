@@ -35,9 +35,11 @@ export interface AssetsManifestFileOutput {
 
 export interface AssetsManifest {
   version: string;
-  entry: {
-    module: string;
-    imports: string[];
+  entries: {
+    [key: string]: {
+      module: string;
+      imports: string[];
+    };
   };
   url?: string;
 }

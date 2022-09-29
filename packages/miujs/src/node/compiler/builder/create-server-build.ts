@@ -6,7 +6,6 @@ import type { BuildOptions, AssetsManifestPromiseRef } from "../../types/compile
 import { getVersion } from "../dependencies";
 import { serverEntryModulePlugin } from "./esbuild-server-entry-module-plugin";
 import { serverAssetsManifestPlugin } from "./esbuild-server-assets-manifest-plugin";
-import { serverTemplatePlugin } from "./esbuild-server-template-plugin";
 import { createRouteModulesBuild } from "./create-route-modules-build";
 import { loaders } from "./esbuild-loaders";
 
@@ -19,11 +18,7 @@ export async function createServerBuild(
 ): Promise<esbuild.BuildResult> {
   // const dependencies = getDependencies(config);
 
-  const plugins: esbuild.Plugin[] = [
-    serverEntryModulePlugin(config),
-    serverAssetsManifestPlugin(ref),
-    serverTemplatePlugin(config)
-  ];
+  const plugins: esbuild.Plugin[] = [serverEntryModulePlugin(config), serverAssetsManifestPlugin(ref)];
 
   let entryPoints: string[] | undefined;
   let stdin: esbuild.StdinOptions | undefined;

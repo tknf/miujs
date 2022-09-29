@@ -40,15 +40,19 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
   const sourceDirectory = path.resolve(root, appConfig.sourceDirectory ?? "src");
   const relativePath = {
     routes: appConfig.routesDirectory ?? `routes`,
-    layouts: appConfig.layoutsDirectory ?? `layouts`,
-    sections: appConfig.sectionsDirectory ?? `sections`,
-    partials: appConfig.partialsDirectory ?? `partials`,
-    entryClient: appConfig.entryClientFile ?? `src/entry-client`
+    templates: {
+      routes: appConfig.templates?.routesDirectory ?? `templates/routes`,
+      layouts: appConfig.templates?.layoutsDirectory ?? `templates/layouts`,
+      partials: appConfig.templates?.partialsDirectory ?? `templates/partials`
+    },
+    clientEntries: appConfig.clientEntries ?? {}
   };
   const routesDirectory = path.join(sourceDirectory, appConfig.routesDirectory ?? "routes");
-  const layoutsDirectory = path.join(sourceDirectory, appConfig.layoutsDirectory ?? "layouts");
-  const sectionsDirectory = path.join(sourceDirectory, appConfig.sectionsDirectory ?? "sections");
-  const partialsDirectory = path.join(sourceDirectory, appConfig.partialsDirectory ?? "partials");
+  const templateDirectories = {
+    routes: path.join(sourceDirectory, appConfig.templates?.routesDirectory ?? "templates/routes"),
+    layouts: path.join(sourceDirectory, appConfig.templates?.layoutsDirectory ?? "templates/layouts"),
+    partials: path.join(sourceDirectory, appConfig.templates?.partialsDirectory ?? "templates/partials")
+  };
   const themeDirectory = path.join(sourceDirectory, appConfig.themeDirectory ?? "theme");
 
   /**
@@ -58,7 +62,7 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
   const serverModuleFormat = appConfig.serverModuleFormat ?? "cjs";
 
   const entryServerFilename = appConfig.entryServerFile ?? "src/entry-server";
-  const entryServerFile = findEntryFile(root, entryServerFilename);
+  const entryServerFile = findServerEntryFile(root, entryServerFilename);
   if (!entryServerFile) {
     throw new Error(`Cannot find file "${entryServerFilename}" in ${root}`);
   }
@@ -82,13 +86,15 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
   /**
    * Browser build
    */
-  const entryClientFilename = relativePath.entryClient;
-  const entryClientFile = findEntryFile(root, entryClientFilename);
-
-  if (!entryClientFile) {
-    throw new Error(`Cannot find file "${entryClientFilename}" in ${root}`);
+  const entryClientFilenames = relativePath.clientEntries;
+  const clientEntries: Record<string, string> = {};
+  for (const [key, file] of Object.entries(entryClientFilenames)) {
+    const entry = findEntryFile(root, file);
+    if (entry) {
+      clientEntries[key] = file;
+    }
   }
-  relativePath.entryClient = entryClientFile;
+  relativePath.clientEntries = clientEntries;
 
   const clientBuildDirectory = path.resolve(root, appConfig.clientBuildDirectory ?? `.miubuild/browser`);
   const clientPublicPath = "/assets/";
@@ -100,9 +106,9 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
    */
   const routes = createRouteMap(routesDirectory);
   const templates = {
-    layouts: createTemplateMap(layoutsDirectory),
-    sections: createTemplateMap(sectionsDirectory),
-    partials: createTemplateMap(partialsDirectory)
+    routes: createTemplateMap(templateDirectories.routes),
+    layouts: createTemplateMap(templateDirectories.layouts),
+    partials: createTemplateMap(templateDirectories.partials)
   };
 
   /**
@@ -129,9 +135,7 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
     rootDirectory,
     sourceDirectory,
     routesDirectory,
-    layoutsDirectory,
-    sectionsDirectory,
-    partialsDirectory,
+    templateDirectories,
     themeDirectory,
 
     markdown: {
@@ -148,8 +152,8 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
 
     clientBuildDirectory,
     clientPublicPath,
+    clientEntries,
 
-    entryClientFile,
     entryServerFile,
 
     routes,
@@ -162,11 +166,18 @@ export async function loadConfig(root?: string, serverMode: ServerMode = "produc
   return config;
 }
 
-function findEntryFile(dir: string, basename: string): string | undefined {
+function findServerEntryFile(dir: string, basename: string): string | undefined {
   for (const ext of ["ts", "js"]) {
     const file = path.resolve(dir, `${basename}.${ext}`);
     if (fse.existsSync(file)) return path.relative(dir, file);
   }
+
+  return undefined;
+}
+
+function findEntryFile(dir: string, basename: string): string | undefined {
+  const file = path.resolve(dir, basename);
+  if (fse.existsSync(file)) return path.relative(dir, file);
 
   return undefined;
 }
@@ -176,7 +187,7 @@ function createTemplateMap(dir: string) {
   if (fse.existsSync(dir)) {
     fse
       .readdirSync(dir)
-      .filter((file) => path.extname(file) === ".html" || path.extname(file) === ".njk" || path.extname(file) === ".nj")
+      .filter((file) => path.extname(file) === ".html")
       .forEach((file) => {
         const name = dashify(file.replace(path.extname(file), "").replace(".", "-"));
         templates[name] = {

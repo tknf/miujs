@@ -1,22 +1,28 @@
+import type { Picx } from "picx";
 import type { RouteMatch } from "./types/route-matching";
 import type { CreateRequestHandlerFunction, RequestContext } from "./types/server-handler";
 import type { ServerMode } from "./types/server-mode";
 import type { RouteManifest, ServerBuild } from "./types/server-build";
 import type { ServerErrorState, ServerEntryModuleContext } from "./types/server-entry";
 import type { RouteActionModuleKeys } from "./types/route-modules";
+import type { RenderContext } from "./types/render";
 
-import { setupTemplate, render, renderRaw } from "./templates";
+import { render, renderRaw, setupPicx } from "./templates";
 import { isValidRequestMethod } from "./request";
 import { getContentTypeHeader, TextHtml } from "./response";
 import { matchRoutes } from "./route-matching";
 import { isServerMode } from "./server-mode";
-import { RenderContent, RenderContext } from "./types/render";
 
 export const createRequestHandler: CreateRequestHandlerFunction = (build, mode, serverContext = {}) => {
   const routes = createRoutes(build.routes);
   const servermode: ServerMode = isServerMode(mode) ? mode : "production";
 
-  setupTemplate({ partials: build.templates.partials, sections: build.templates.sections });
+  const engine = setupPicx({
+    routes: build.templates.routes,
+    layouts: build.templates.layouts,
+    partials: build.templates.partials,
+    assets: build.assets
+  });
 
   return async function requestHandler(request, entryContext = {}) {
     const match = matchRoutes(routes, request.url);
@@ -25,7 +31,7 @@ export const createRequestHandler: CreateRequestHandlerFunction = (build, mode, 
       markdownContents: build.markdownContents
     });
 
-    const response = await handleRequest({ build, context: appContext, match, request, servermode });
+    const response = await handleRequest({ engine, build, context: appContext, match, request, servermode });
 
     if (request.method.toLowerCase() === "head") {
       return new Response(null, {
@@ -44,13 +50,15 @@ async function handleRequest({
   context,
   match,
   request,
-  servermode
+  servermode,
+  engine
 }: {
   build: ServerBuild;
   context: RequestContext;
   match: RouteMatch | null;
   request: Request;
   servermode: ServerMode;
+  engine: Picx;
 }): Promise<Response> {
   const handler = build.entry.module.default;
 
@@ -80,11 +88,12 @@ async function handleRequest({
       message: `Not Found`
     };
     renderContext.error = error;
+    renderContext.__raw_html = `<pre><code>Not Found.</code></pre>`;
     responseHeaders = {
       [getContentTypeHeader()]: TextHtml()
     };
     responseStatusCode = 404;
-    markup = renderRaw(getLayout(build, "404"), `<pre><code>Not Found.</code></pre>`, renderContext);
+    markup = renderRaw(engine, getRouteLayout(build, "404"), renderContext);
   } else {
     try {
       const method = request.method.toLocaleLowerCase();
@@ -98,7 +107,7 @@ async function handleRequest({
             query: match.query,
             params: match.params,
             context,
-            createContent: defineCreateContentFunction(build, renderContext)
+            template: defineCreateContentFunction(engine, renderContext)
           });
         }
       } else if (match.route?.module.get && method === "get") {
@@ -109,7 +118,7 @@ async function handleRequest({
           query: match.query,
           params: match.params,
           context,
-          createContent: defineCreateContentFunction(build, renderContext)
+          template: defineCreateContentFunction(engine, renderContext)
         });
       }
 
@@ -117,20 +126,18 @@ async function handleRequest({
       responseHeaders = {
         [getContentTypeHeader()]: TextHtml()
       };
-      markup = renderRaw(getLayout(build, "404"), `<pre><code>Not Found.</code></pre>`, renderContext);
+      renderContext.__raw_html = `<pre><code>Not Found.</code></pre>`;
+      markup = renderRaw(engine, getRouteLayout(build, "404"), renderContext);
     } catch (err) {
       // server error (500)
       responseStatusCode = 500;
       error = serializeError(err);
       renderContext.error = error;
+      renderContext.__raw_html = `<pre><code>${String(err.message + err.stack)}</code></pre>`;
       responseHeaders = {
         [getContentTypeHeader()]: TextHtml()
       };
-      markup = renderRaw(
-        getLayout(build, "500"),
-        `<pre><code>${String(err.message + err.stack)}</code></pre>`,
-        renderContext
-      );
+      markup = renderRaw(engine, getRouteLayout(build, "500"), renderContext);
     }
   }
 
@@ -150,29 +157,25 @@ function serializeError(error: Error): ServerErrorState {
   };
 }
 
-function getLayout(build: ServerBuild, layout = "default") {
-  if (!build.templates.layouts[layout]) {
-    throw new Error(`Layout "${layout}" is not found.`);
-  }
-
-  return build.templates.layouts[layout];
+function getRouteLayout(build: ServerBuild, route: string) {
+  return build.templates.routes[route];
 }
 
 function defineCreateContentFunction(
-  build: ServerBuild,
+  engine: Picx,
   context: RenderContext
-): (renderContent: RenderContent) => string {
-  return (renderContent: RenderContent) => {
-    const layout = getLayout(build, renderContent.layout);
+): (name: string, scope?: Record<string, any>) => string {
+  return (name: string, scope?: Record<string, any>) => {
+    if (!name.startsWith("routes/")) {
+      name = `routes/${name}`;
+    }
 
     context = {
       ...context,
-      __raw_html: renderContent.__raw_html,
-      metadata: renderContent.metadata,
-      data: renderContent.data
+      ...scope
     };
 
-    return render(layout, renderContent.sections || [], context);
+    return render(engine, name, context);
   };
 }
 

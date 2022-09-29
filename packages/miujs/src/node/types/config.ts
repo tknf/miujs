@@ -21,23 +21,25 @@ export interface ApplicationConfig {
    */
   routesDirectory?: string;
 
-  /**
-   * The path to the section files directory, relative to `sourceDirectory`.\
-   * Default: `"layouts"`
-   */
-  layoutsDirectory?: string;
+  templates?: {
+    /**
+     * The path to the route files directory, relative to `sourceDirectory`.\
+     * Default: `"templates/routes"`
+     */
+    routesDirectory?: string;
 
-  /**
-   * The path to the section files directory, relative to `sourceDirectory`.\
-   * Default: `"sections"`
-   */
-  sectionsDirectory?: string;
+    /**
+     * The path to the section files directory, relative to `sourceDirectory`.\
+     * Default: `"templates/layouts"`
+     */
+    layoutsDirectory?: string;
 
-  /**
-   * The path to the partial files directory, relative to `sourceDirectory`.\
-   * Default: `"partials"`
-   */
-  partialsDirectory?: string;
+    /**
+     * The path to the partial files directory, relative to `sourceDirectory`.\
+     * Default: `"templates/partials"`
+     */
+    partialsDirectory?: string;
+  };
 
   /**
    * The path to the theme config files directory, relative to `sourceDirectory`.\
@@ -81,13 +83,13 @@ export interface ApplicationConfig {
   clientBuildDirectory?: string;
 
   /**
-   * The path to the client javascript entry filename without extensions, relative to `miu.config.js`.\
-   * Default: `"src/entry-client"`
+   * The Set of key and path to the client javascript entry filenames relative to `miu.config.js`.\
+   * Default: {}
    */
-  entryClientFile?: string;
+  clientEntries?: Record<string, string>;
 
   /**
-   * The path to the MiuJS server entrypoint filename without extensions, relative to `miu.config.js`.\
+   * The path to the MiuJS server entrypoint filename relative to `miu.config.js`.\
    * Default: `"src/entry-server"`
    */
   entryServerFile?: string;
@@ -107,10 +109,12 @@ export interface MiuConfig {
   rootDirectory: string;
   sourceDirectory: string;
   routesDirectory: string;
-  layoutsDirectory: string;
+  templateDirectories: {
+    routes: string;
+    layouts: string;
+    partials: string;
+  };
   themeDirectory: string;
-  sectionsDirectory: string;
-  partialsDirectory: string;
 
   markdown: MarkdownConfig & {
     contents: ConfigMarkdownContent[];
@@ -125,24 +129,26 @@ export interface MiuConfig {
 
   clientBuildDirectory: string;
   clientPublicPath: string;
+  clientEntries: Record<string, string>;
 
-  entryClientFile: string;
   entryServerFile: string;
 
   routes: Record<string, ConfigRoute>;
   customWatchDirectories?: string[];
   templates: {
+    routes: Record<string, ConfigTemplate>;
     layouts: Record<string, ConfigTemplate>;
-    sections: Record<string, ConfigTemplate>;
     partials: Record<string, ConfigTemplate>;
   };
 
   relativePath: {
     routes: string;
-    layouts: string;
-    sections: string;
-    partials: string;
-    entryClient: string;
+    templates: {
+      routes: string;
+      layouts: string;
+      partials: string;
+    };
+    clientEntries: Record<string, string>;
   };
 }
 

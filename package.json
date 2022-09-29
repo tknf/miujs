@@ -1,7 +1,6 @@
 {
   "name": "miujs-monorepo",
   "private": true,
-  "packageManager": "yarn@1.22.17",
   "workspaces": [
     "examples/*",
     "packages/*",
@@ -12,8 +11,8 @@
   },
   "prettier": "@tknf/prettier-config",
   "scripts": {
-    "dev": "turbo run dev --parallel",
-    "build": "turbo run build",
+    "dev": "pnpm -r --parallel run dev",
+    "build": "pnpm -r run build",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch --parallel",
     "lint": "turbo run lint",
