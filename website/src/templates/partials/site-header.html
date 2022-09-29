@@ -1,0 +1,25 @@
+<div class="site-header">
+  <nav class="navigation">
+    <div class="mobile_container">
+      <div class="logo">
+        <a href="/" aria-label="MiuJS Home">
+          <!-- RENDER "partials/miu-icon", width: 30 -->
+          {{ theme | json }}
+          <span>{{ title }}</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="container">
+      <ul>
+        <!-- EACH item in items -->
+          <li>
+            <a href="{{ item.url }}">
+              {{ item.text }}
+            </a>
+          </li>
+        <!-- ENDEACH -->
+      </ul>
+    </div>
+  </nav>
+</div>

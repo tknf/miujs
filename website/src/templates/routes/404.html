@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>
+    <!-- IF title -->
+    {{ title }}
+    <!-- ELSE -->
+    {{ theme.config.default_title }}
+    <!-- ENDIF -->
+    {{ theme.config.title_separator }} {{ theme.config.title }}
+  </title>
+  <meta name="description" content="<!-- IF metadata.description -->{{ metadata.description }}<!-- ELSE -->{{ theme.config.description }}<!-- ENDIF -->" />
+  <link rel="stylesheet" href="/main.css" />
+  <link rel="stylesheet" href="/error.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600;800&display=swap"
+    rel="stylesheet">
+  <script type="module" src="{{ "entry-client" | assets }}"></script>
+</head>
+
+<body>
+  <!-- RENDER "partials/reach-skip-nav-link" -->
+
+  <main id="main-content" class="content">
+    <div class="block">
+      <h1>Not Found</h1>
+      <p><a href="/">Go back to home</a></p>
+    </div>
+  </main>
+
+  <live-reload></live-reload>
+</body>
+
+</html>

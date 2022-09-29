@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>
+    {% if metadata.title %}
+      {{ metadata.title }}
+    {% else %}
+      {{ theme.config.default_title }}
+    {% endif %}
+    {{ theme.config.title_separator }} {{ theme.config.title }}
+  </title>
+  <meta name="description" content="{% if metadata.description %}{{ metadata.description }}{% else %}{{ theme.config.description }}{% endif %}" />
+  <link rel="stylesheet" href="/main.css" />
+  <link rel="stylesheet" href="/error.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600;800&display=swap"
+    rel="stylesheet">
+  <!-- style -->
+</head>
+
+<body>
+  {% partial "reach-skip-nav-link" %}
+  <div></div>
+  <div></div>
+
+  <main id="main-content" class="content">
+    <div class="block">
+      <h1>Server Error</h1>
+      <!-- content -->
+      <p><a href="/">Go back to home</a></p>
+    </div>
+  </main>
+
+  <live-reload></live-reload>
+  <!-- assets -->
+</body>
+
+</html>

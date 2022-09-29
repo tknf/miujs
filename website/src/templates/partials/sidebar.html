@@ -1,0 +1,21 @@
+<div class="sidebar">
+  <div class="container">
+    <ul class="list">
+      <!-- EACH item in items -->
+        <!-- SCRIPT
+          ASSIGN classname = "link"
+          ASSIGN ariacurrent = ""
+          IF item.current
+            ASSIGN classname = "link active"
+            ASSIGN ariacurrent = "page"
+          ENDIF
+        -->
+        <li class="list_item">
+          <a class="{{ classname }}" href="{{ item.url }}" aria-current="{{ ariacurrent }}">
+            {{ item.text }}
+          </a>
+        </li>
+      <!-- ENDEACH -->
+    </ul>
+  </div>
+</div>

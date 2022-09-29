@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- SCRIPT
+  ASSIGN display_title = theme.config.default_title
+  IF title
+    ASSIGN display_title = title
+  ENDIF
+  ASSIGN display_description = theme.config.description
+  IF description
+    ASSIGN display_description = description
+  ENDIF
+  ASSIGN url = theme.config.host
+-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>{{ display_title }} {{ theme.config.title_separator }} {{ theme.config.title }}</title>
+  <meta name="description" content="{{ display_description }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="{{ theme.config.title }}" />
+  <meta property="og:title" content="{{ display_title }}" />
+  <meta property="og:description" content="{{ display_description }}" />
+  <meta property="og:image" content="{{ url }}/images/miujs_ogp.png" />
+  <meta property="og:url" content="{{ url }}{{ metadata.url }}" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:site" content="@tknf_llc" />
+  <meta property="twitter:title" content="{{ display_title }}" />
+  <meta property="twitter:description" content="{{ display_description }}" />
+  <meta property="twitter:image" content="{{ url }}/images/miujs_ogp.png" />
+  <link rel="stylesheet" href="/main.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600;800&display=swap"
+    rel="stylesheet">
+  <script type="module" src="{{ "entry-client" | assets }}"></script>
+</head>
+
+<body>
+  <!-- RENDER "partials/reach-skip-nav-link" -->
+  <!-- RENDER "partials/announcement-bar", messages: announcements -->
+  <!-- RENDER "partials/site-header",
+    items: theme.config.sections.header.navigation,
+    title: theme.config.title
+  -->
+
+  <div class="layout">
+    <!-- RENDER "partials/sidebar", items: navigation -->
+    <div class="content">
+      <main id="main-content" role="main">
+        <article>
+          <!-- raw_html -->
+        </article>
+        {{ raw_html | json }}
+        <div class="pagination">
+          <div class="pagination_card">
+            <!-- IF prev -->
+            <a href="{{ prev.url }}"><span class="label">Prev: </span>{{ prev.text }}</a>
+            <!-- ENDIF -->
+          </div>
+          <div class="pagination_card">
+            <!-- IF next -->
+            <a href="{{ next.url }}"><span class="label">Next: </span>{{ next.text }}</a>
+            <!-- ENDIF -->
+          </div>
+        </div>
+      </main>
+
+      <footer role="contentinfo">
+        <nav>
+          <ul>
+            <li>
+              <a href="https://github.com/tknf/miujs" target="_blank" rel="noreferrer noopener">Github</a>
+            </li>
+            <li>
+              <a href="https://www.tknf.net" target="_blank" rel="noreferrer noopener">TKNF LLC</a>
+            </li>
+          </ul>
+        </nav>
+      </footer>
+    </div>
+  </div>
+
+  <live-reload></live-reload>
+
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% set title = metadata.title if metadata.title else theme.config.default_title %}
+{% set description = metadata.description if metadata.description else theme.config.description %}
+{% set url = theme.config.host %}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>{{ title }} {{ theme.config.title_separator }} {{ theme.config.title }}</title>
+  <meta name="description" content="{{ description }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="{{ theme.config.title }}" />
+  <meta property="og:title" content="{{ title }}" />
+  <meta property="og:description" content="{{ description }}" />
+  <meta property="og:image" content="{{ url }}/images/miujs_ogp.png" />
+  <meta property="og:url" content="{{ url }}{{ metadata.url }}" />
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:site" content="@tknf_llc" />
+  <meta property="twitter:title" content="{{ title }}" />
+  <meta property="twitter:description" content="{{ description }}" />
+  <meta property="twitter:image" content="{{ url }}/images/miujs_ogp.png" />
+  <link rel="stylesheet" href="/main.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600;800&display=swap"
+    rel="stylesheet">
+  <!-- style -->
+</head>
+
+<body>
+  {% partial "reach-skip-nav-link" %}
+  {%- section "announcement-bar", {
+    messages: data.announcements
+  } -%}
+  {% section "site-header", {
+    items: theme.config.sections.header.navigation
+  } %}
+
+  <div class="layout">
+    {%- section "sidebar", { items: data.navigation } -%}
+    {%- section "main-content", { prev: data.prev, next: data.next } -%}
+  </div>
+
+  <live-reload></live-reload>
+  <!-- assets -->
+
+</body>
+
+</html>

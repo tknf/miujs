@@ -1,0 +1,19 @@
+{
+  "name": "miujs-website",
+  "version": "0.1.64",
+  "private": true,
+  "scripts": {
+    "dev": "miu dev",
+    "build": "miu build"
+  },
+  "dependencies": {
+    "markdown-it": "^13.0.0",
+    "miujs": "workspace:*",
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.28.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^12.2.3",
+    "@types/prismjs": "^1.26.0"
+  }
+}

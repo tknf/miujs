@@ -1,0 +1,18 @@
+{
+  "default_title": "Minimal Web Framework for Node.js",
+  "title": "MiuJS",
+  "title_separator": "-",
+  "description": "MiuJS is a Node.js framework for development of fast, simple, lightweight website.",
+  "host": "https://www.miujs.com",
+
+  "sections": {
+    "header": {
+      "navigation": [
+        {
+          "url": "https://github.com/tknf/miujs",
+          "text": "Github"
+        }
+      ]
+    }
+  }
+}

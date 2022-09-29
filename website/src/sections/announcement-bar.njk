@@ -1,0 +1,13 @@
+<style scoped></style>
+
+<template>
+  <div class="root">
+    {%- if messages -%}
+      {%- for message in messages -%}
+        <div>
+          {{ message }}
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</template>
