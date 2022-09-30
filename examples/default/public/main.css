@@ -59,3 +59,134 @@ main {
   --color-border-primary: #dddddd;
   --color-border-secondary: #cccccc;
 }
+
+.reach-skip-nav-link {
+  width: 1px;
+  height: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+  position: absolute;
+  margin: -1px;
+}
+
+.header {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  position: fixed;
+  background-color: var(--color-background-inverse);
+  color: var(--color-text-inverse);
+}
+.header nav {
+  display: flex;
+  justify-content: flex-end;
+}
+.header nav ul {
+  list-style: none;
+  margin: 0;
+  display: flex;
+}
+.header nav li:not(:first-child) {
+  margin-left: 20px;
+}
+.header nav a {
+  font-family: var(--font-sans);
+}
+
+.footer {
+  display: block;
+  background-color: var(--color-background-inverse);
+  color: var(--color-text-inverse);
+  padding: 40px 0 60px;
+}
+.footer .link {
+  display: inline-block;
+}
+.footer .content {
+  display: flex;
+  align-items: flex-end;
+}
+.footer .powered-by {
+  line-height: 1;
+  font-family: var(--font-sans);
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  margin-left: 15px;
+}
+.footer .powered-by svg {
+  width: 90px;
+  height: 39.4px;
+  margin-left: 5px;
+}
+
+.common-header {
+  display: block;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--color-border-primary);
+}
+.common-header .container {
+  display: flex;
+}
+.common-header h1 {
+  margin: 0;
+}
+.common-header .logo-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.common-header p {
+  margin-left: 40px;
+  max-width: 400px;
+  line-height: 2;
+  font-family: var(--font-sans);
+}
+@media screen and (min-width: 720px) {
+  .common-header p {
+    margin-left: 60px;
+  }
+}
+
+.home-section {
+  display: block;
+  padding-top: 3rem;
+}
+.home-section h2,
+.home-section h3 {
+  margin-top: 0;
+}
+.home-section form {
+  display: flex;
+}
+.home-section input {
+  width: 100%;
+  max-width: 450px;
+  appearance: none;
+  background-color: var(--color-background-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: 0;
+  padding: 10px 11px 10px 13px;
+  font-size: 1rem;
+  flex-grow: 1;
+}
+.home-section button {
+  font-size: 1rem;
+  background-color: var(--color-background-inverse);
+  color: var(--color-text-inverse);
+  border: 0;
+  padding: 10px 11px;
+  cursor: pointer;
+}
+.home-section .error {
+  font-size: 0.85rem;
+  color: red;
+  margin-bottom: 10px;
+}
+.home-section .post-form {
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--color-border-primary);
+}
+.home-section .get {
+  padding-top: 2.5rem;
+}

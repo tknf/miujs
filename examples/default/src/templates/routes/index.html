@@ -1,0 +1,41 @@
+<!-- LAYOUT "layouts/default" -->
+
+<!-- BLOCK -->
+<!-- RENDER "partials/common-header", title: theme.config.title, description: theme.config.description -->
+<section class="home-section">
+  <div class="post-form">
+    <h2>POST Action</h2>
+
+    <!-- IF data.name -->
+    <h3>Hello {{ data.name }}</h3>
+    <!-- ELSE -->
+    <h3>Type your name: </h3>
+    <!-- ENDIF -->
+
+    <!-- IF data.error -->
+    <div class="error">
+      {{ data.error }}
+    </div>
+    <!-- ENDIF -->
+
+    <form action="/" method="post">
+      <input type="text" name="name" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="get">
+      <h2>File system routing</h2>
+      <ul>
+        <!-- EACH post in posts -->
+        <li>
+          <a href="/posts/{{ post.handle }}">
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.content }}</p>
+          </a>
+        </li>
+        <!-- ENDEACH -->
+      </ul>
+    </div>
+  </div>
+</section>
+<!-- ENDBLOCK -->

@@ -3,6 +3,9 @@
  */
 module.exports = {
   serverBuildTarget: "node",
-  customWatchDirectories: ["../../node_modules/miujs", "./public/*.css"],
-  ignoreRouteFiles: [".*"]
+  customWatchDirectories: ["./public/*.css"],
+  ignoreRouteFiles: ["**/.*"],
+  clientEntries: {
+    "entry-client": "src/entry-client.ts"
+  }
 };

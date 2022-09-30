@@ -1,56 +1,20 @@
-import { RouteAction, render, json, getCacheControlHeader, CacheMinutes } from "miujs/node";
+import { RouteAction, render } from "miujs/node";
 import { posts } from "../content/posts";
 
-export const get: RouteAction = ({ createContent }) => {
-  return render(
-    createContent({
-      layout: "default",
-      sections: [
-        {
-          name: "common-header",
-          settings: {}
-        },
-        {
-          name: "home-content",
-          settings: {}
-        }
-      ],
-      metadata: {},
-      data: {
-        posts
-      }
-    }),
-    {
-      status: 200,
-      headers: {
-        [getCacheControlHeader()]: CacheMinutes()
-      }
-    }
-  );
+export const get: RouteAction = ({ template, context }) => {
+  return render(template("index", { posts, theme: context.theme }), { status: 200 });
 };
 
-export const post: RouteAction = async ({ request, createContent }) => {
+export const post: RouteAction = async ({ request, template }) => {
   const formdata = await request.formData();
   const name = formdata.get("name");
 
   return render(
-    createContent({
-      layout: "default",
-      sections: [
-        {
-          name: "common-header",
-          settings: {}
-        },
-        {
-          name: "home-content",
-          settings: {}
-        }
-      ],
-      metadata: {},
+    template("index", {
+      posts,
       data: {
-        posts,
         name,
-        error: !name ? `Invalid \"name\".` : undefined
+        error: !name ? `Invalid "name".` : undefined
       }
     }),
     {
