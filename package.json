@@ -12,8 +12,8 @@
   "prettier": "@tknf/prettier-config",
   "scripts": {
     "dev": "pnpm -r --parallel run dev",
-    "build:packages": "pnpm --filter miujs run build",
-    "build:website": "pnpm --filter miujs-website run build",
+    "build:packages": "cross-env NODE_ENV=production pnpm --filter miujs run build",
+    "build:website": "cross-env NODE_ENV=production pnpm --filter miujs-website run build",
     "build": "pnpm -r run build",
     "test": "turbo run test",
     "test:watch": "turbo run test:watch --parallel",
